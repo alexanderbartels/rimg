@@ -1,0 +1,49 @@
+{
+  "name": "rimg",
+  "version": "1.0.0",
+  "description": "responsive-image generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc -p .",
+    "fix": "gts fix",
+    "build": "npm run compile && pkg build/rimg.js --targets latest --out-path target",
+    "prepare": "npm run build",
+    "pretest": "npm run build",
+    "posttest": "npm run check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexanderbartels/rimg.git"
+  },
+  "keywords": [
+    "responsive",
+    "images",
+    "srcset",
+    "picture"
+  ],
+  "author": "Alexander Bartels <bartels.xander@gmail.com> (http://www.alexanderbartels.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/alexanderbartels/rimg/issues"
+  },
+  "homepage": "https://github.com/alexanderbartels/rimg",
+  "devDependencies": {
+    "@types/node": "^10.0.4",
+    "@types/yargs": "^11.0.0",
+    "gts": "^0.5.4",
+    "pkg": "^4.3.1",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "@types/globby": "^6.1.0",
+    "globby": "^8.0.1",
+    "image-size": "^0.6.2",
+    "mkdir-recursive": "^0.4.0",
+    "sqip": "^0.3.3",
+    "tinify": "^1.5.0",
+    "yargs": "^11.0.0"
+  }
+}

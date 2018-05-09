@@ -1,0 +1,1 @@
+{"version":3,"file":"backend.js","sourceRoot":"","sources":["../../src/parameter/backend.ts"],"names":[],"mappings":";;AAGA,0BAA0B;AACb,QAAA,IAAI,GAAG,GAAG,CAAC;AACX,QAAA,cAAc,GAAG,UAAC,eAAyB,IAAc,OAAA,CAAC;IACnE,KAAK,EAAE,UAAU;IACjB,WAAW,EAAE,iEAAiE;IAC9E,IAAI,EAAE,OAAO;IACb,OAAO,EAAE,eAAe;CAC3B,CAAC,EALoE,CAKpE,CAAC"}
