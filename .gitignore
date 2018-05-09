@@ -62,5 +62,8 @@ typings/
 # target (build target from pkg)
 target/
 
+# build is the typescript destination folder
+build/
+
 # out (Default output path from rimg)
 out/
