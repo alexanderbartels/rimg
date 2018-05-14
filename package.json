@@ -61,6 +61,11 @@
     }
   },
   "release": {
-    "assets": ["target/*"]
+    "publish": [
+      {
+        "path": "@semantic-release/github",
+        "assets": ["target/*"]
+      }
+    ]
   }
 }
