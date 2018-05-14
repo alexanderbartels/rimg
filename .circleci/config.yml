@@ -37,6 +37,7 @@ jobs:
       - run: |
           git clone https://github.com/alexanderbartels/pkg.git
           cd pkg
+          sudo npm install
           sudo npm link
           cd ..
           rm -rf ./node_modules/pgk
