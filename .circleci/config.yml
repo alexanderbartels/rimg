@@ -43,5 +43,8 @@ jobs:
           rm -rf ./node_modules/pgk
         
       # run build
-      - run: npm run build && ls -la target
+      - run: 
+        command: |
+            npm run build
+            ls -la target
 
