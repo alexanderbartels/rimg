@@ -11,6 +11,7 @@
     "compile": "tsc -p .",
     "fix": "gts fix",
     "build": "npm run compile && pkg build/rimg.js --targets latest --out-path target",
+    "build:all": "npm run compile && pkg build/rimg.js --targets linux,macos,win --out-path target",
     "prepare": "npm run build",
     "pretest": "npm run build",
     "posttest": "npm run check",
@@ -58,5 +59,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "release": {
+    "assets": ["target/*"]
   }
 }
