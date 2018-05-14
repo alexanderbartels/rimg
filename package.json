@@ -4,6 +4,7 @@
   "description": "responsive-image generator",
   "main": "index.js",
   "scripts": {
+    "docs:serve": "docsify serve ./docs",
     "commit": "git-cz",
     "test": "echo \"Error: no test specified\" && exit 1",
     "check": "gts check",
@@ -38,6 +39,7 @@
     "@types/yargs": "^11.0.0",
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.1.0",
+    "docsify-cli": "^4.2.1",
     "gts": "^0.5.4",
     "pkg": "^4.3.1",
     "semantic-release": "^15.4.1",
@@ -64,7 +66,9 @@
     "publish": [
       {
         "path": "@semantic-release/github",
-        "assets": ["target/*"]
+        "assets": [
+          "target/*"
+        ]
       }
     ]
   }
