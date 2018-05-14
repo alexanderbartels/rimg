@@ -35,9 +35,9 @@ jobs:
        
       # use custom pkg until our PR with support for sqip and tinify is merged (https://github.com/zeit/pkg/pull/418)
       - run: |
-          git clone https://github.com/engineer-legion/pkg.git
+          git clone https://github.com/alexanderbartels/pkg.git
           cd pkg
-          npm link
+          sudo npm link
           cd ..
           rm -rf ./node_modules/pgk
         
