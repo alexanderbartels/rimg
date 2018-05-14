@@ -27,11 +27,20 @@ jobs:
           - v1-dependencies-
 
       - run: npm install
-
+      
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+       
+      # use custom pkg until PR is merged (https://github.com/zeit/pkg/pull/418)
+      - run:
+        command: |
+          git checkout https://github.com/engineer-legion/pkg.git
+          cd pkg
+          npm link
+          cd ..
+          rm -rf ./node_modules/pgk
         
       # run build
       - run: npm run build && ls -la target
