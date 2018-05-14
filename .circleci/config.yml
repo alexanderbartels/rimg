@@ -46,7 +46,7 @@ jobs:
         
       # run build
       - run: |
-          npm run build:all
+          npm run build
           ls -la target
     
       # create a brand new release 
