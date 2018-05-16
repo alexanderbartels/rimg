@@ -1,8 +1,11 @@
 {
-  "name": "rimg",
+  "name": "rimg-cli",
   "version": "0.0.0-development",
   "description": "responsive-image generator",
   "main": "index.js",
+  "bin": {
+    "rimg": "./build/rimg.js"
+  },
   "scripts": {
     "docs:serve": "docsify serve ./docs",
     "commit": "git-cz",

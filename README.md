@@ -18,6 +18,11 @@ TODO: for every command or Backend should be an automated test. But currently no
 ## Releases 
 On Every commit or merge to the master Branch the `semantic-release`module will check if release should be created. To take full advantage from the tool, commits shuld be done via `npm run commit`. The command uses the `commitizen` module to generate useful commit messages. These messages are used to generate the GitHub Release. This Build will be triggert via our CircleCI Build Environment.
 
+## Pull Requests 
+
+### Automated Checks
+Checks are done via CodeClimate: https://docs.codeclimate.com/docs/github-pull-requests
+
 
 ## Software Design
 

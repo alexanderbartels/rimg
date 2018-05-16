@@ -1,12 +1,12 @@
 ## Usage
 
-The `rimg thumb <files>` command creates thumbnails with a given size. 
+The `rimg srcset <files>` command creates thumbnails with a given size. 
 
 ```
-// Create thumbnails from all png images inside the pictures folder
-$ rimg thumb pictures/*.png
+// Creates a srcset (1x and 2x resolution) for all png images inside the pictures folder.
+// Provided Images must be in 2x resolution.
+$ rimg sqip pictures/*.png
 ```
-
 
 ## Parameter 
 ### Quiet
@@ -31,27 +31,6 @@ $ rimg thumb pictures/*.png
 * Default: `out`
 * Required: `optional`
 
-### Width
-
-```
-  -w, --width       Width for the resulting image. 
-```
-
-* Option type: `number`
-* Default: `none`
-* Required: `required`
-
-### Height
-
-```
-  -h, --height      height for the resulting image.
-```
-
-* Option type: `number`
-* Default: `none`
-* Required: `required`
-
-
 ### Backends
 
 ```
@@ -61,6 +40,7 @@ $ rimg thumb pictures/*.png
 * Option type: `array` of strings see the list of [available Backends](#available-backends) for backends that can be used to compress images.
 * Default: `["tinify"]`
 * Required: `optional`
+
 
 ## Available Backends 
 
@@ -87,3 +67,4 @@ $ rimg thumb pictures/*.png
 * Option type: `string`
 * Default: `none`
 * Required: `required`
+
