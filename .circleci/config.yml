@@ -48,7 +48,20 @@ jobs:
       - run: |
           npm run build:all
           ls -la target
-    
+
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      # run test
+      - run: |
+          ./cc-test-reporter before-build
+          npm run test
+          ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+
+
       # create a brand new release 
       - run: |
           npm run semantic-release

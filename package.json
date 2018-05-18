@@ -9,7 +9,7 @@
   "scripts": {
     "docs:serve": "docsify serve ./docs",
     "commit": "git-cz",
-    "test:unit": "mocha -r ts-node/register src/**/*.spec.ts",
+    "test:unit": "nyc mocha -r ts-node/register --require source-map-support/register --recursive src/**/*.spec.ts",
     "test": "npm run test:unit",
     "check": "gts check",
     "clean": "gts clean",
@@ -50,9 +50,11 @@
     "docsify-cli": "^4.2.1",
     "gts": "^0.5.4",
     "mocha": "^5.1.1",
+    "nyc": "^11.8.0",
     "pkg": "^4.3.1",
     "semantic-release": "^15.4.1",
     "sinon": "^5.0.7",
+    "source-map-support": "^0.5.6",
     "ts-node": "^6.0.3",
     "typescript": "^2.8.3"
   },
@@ -65,6 +67,22 @@
     "svgo": "^1.0.5",
     "tinify": "^1.5.0",
     "yargs": "^11.0.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "build/**/*",
+      "**/*.spec.ts"
+    ],
+    "reporter": [
+      "text",
+      "clover"
+    ],
+    "all": true  
   },
   "config": {
     "commitizen": {
