@@ -1,4 +1,8 @@
-![rimg](https://github.com/alexanderbartels/rimg/blob/master/logo.svg)
+<p align="center">
+ <a href="https://github.com/alexanderbartels/jet">
+  <img alt="rimg logo" title="rimg" src="https://github.com/alexanderbartels/rimg/blob/master/logo.svg" width="256">
+ </a>
+</p>
 
 # rimg
 Rimg is a tool created to make life easier for People how must create (responsive) images for the web. rimg stand for *r*esponsive-*im*a*g*e. 
