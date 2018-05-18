@@ -21,7 +21,7 @@ export class SrcsetCommand extends AbstractCommand {
 }
 
 export class SrcsetCommandModule extends AbstractCommandModule {
-    static NAME = 'srcset'
+    static NAME = 'srcset';
 
     constructor(logger: Logger, backends: Backends) {
         super(SrcsetCommandModule.NAME, logger, backends);

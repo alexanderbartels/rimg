@@ -1,17 +1,17 @@
 ## Usage
 
-The `rimg sqip <files>` command creates thumbnails with a given size. 
+The `rimg sqip <files>` command creates thumbnails with a given size.
 
-```
+```bash
 // Create svg placeholder images using sqip from all png images inside the pictures folder
 $ rimg sqip pictures/*.png
 ```
 
+## Parameter
 
-## Parameter 
 ### Quiet
 
-```
+```bash
   -q, --quiet       In quiet mode only successfully processed images are printed
                     to std out.
 ```
@@ -23,7 +23,7 @@ $ rimg sqip pictures/*.png
 
 ### Output
 
-```
+```bash
   -o, --output      Output directory to store the processed images.
 ```
 
@@ -33,7 +33,7 @@ $ rimg sqip pictures/*.png
 
 ### Width
 
-```
+```bash
   -w, --width       Width for the resulting image. 
 ```
 
@@ -43,7 +43,7 @@ $ rimg sqip pictures/*.png
 
 ### Height
 
-```
+```bash
   -h, --height      height for the resulting image.
 ```
 
@@ -51,10 +51,9 @@ $ rimg sqip pictures/*.png
 * Default: `none`
 * Required: `required`
 
-
 ### Backends
 
-```
+```bash
     -b, --backends    Which Backend or Backends should be used to process the images
 ```
 
@@ -64,14 +63,16 @@ $ rimg sqip pictures/*.png
 
 ## Available Backends 
 
-* [primitive](#primitive) - Uses the pritive library through the sqip npm module to generate svg placeholder images. 
+* [primitive](#primitive) - Uses the primitive library through the sqip npm module to generate svg placeholder images.
 * ... more to come. Create an Issue or PullRequest if you want to include a new Backend.
 
 ### Primitive
-Uses the pritive library through the sqip npm module to generate svg placeholder images. 
+
+Uses the primitive library through the sqip npm module to generate svg placeholder images.
 
 #### Mode
-```
+
+```bash
     --primitive-mode   Mode (default=0) 0=combo, 1=triangle, 2=rect, 3=ellipse,
                      4=circle, 5=rotatedrect, 6=beziers, 7=rotatedellipse,
                      8=polygon
@@ -82,9 +83,10 @@ Uses the pritive library through the sqip npm module to generate svg placeholder
 * Required: `optional`
 
 #### Count
-```
+
+```bash
     --primitive-count  Customize the number of primitive SVG shapes (default=8) to
-                     influence bytesize or level of detail
+                     influence byte size or level of detail
 ```
 
 * Option type: `number`
@@ -92,7 +94,8 @@ Uses the pritive library through the sqip npm module to generate svg placeholder
 * Required: `optional`
 
 #### Blur
-```
+
+```bash
     --primitive-blur   Set the gaussian blur (default=12)
 ```
 

@@ -23,7 +23,7 @@ export class ThumbCommand extends AbstractCommand {
 }
 
 export class ThumbCommandModule extends AbstractCommandModule {
-    static NAME = 'thumb'
+    static NAME = 'thumb';
 
     constructor(logger: Logger, backends: Backends) {
         super(ThumbCommandModule.NAME, logger, backends);

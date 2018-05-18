@@ -41,7 +41,7 @@ import { SqipExecutor } from './SqipExecutor';
                 type: 'number',
                 default: 12
             }
-        }
+        };
     }
  }
 

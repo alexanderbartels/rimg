@@ -2,16 +2,17 @@
 
 The `rimg srcset <files>` command creates thumbnails with a given size. 
 
-```
+```bash
 // Creates a srcset (1x and 2x resolution) for all png images inside the pictures folder.
 // Provided Images must be in 2x resolution.
 $ rimg sqip pictures/*.png
 ```
 
-## Parameter 
+## Parameter
+
 ### Quiet
 
-```
+```bash
   -q, --quiet       In quiet mode only successfully processed images are printed
                     to std out.
 ```
@@ -20,10 +21,9 @@ $ rimg sqip pictures/*.png
 * Default: `false`
 * Required: `optional`
 
-
 ### Output
 
-```
+```bash
   -o, --output      Output directory to store the processed images.
 ```
 
@@ -33,7 +33,7 @@ $ rimg sqip pictures/*.png
 
 ### Backends
 
-```
+```bash
     -b, --backends    Which Backend or Backends should be used to process the images
 ```
 
@@ -41,17 +41,18 @@ $ rimg sqip pictures/*.png
 * Default: `["tinify"]`
 * Required: `optional`
 
-
-## Available Backends 
+## Available Backends
 
 * [tinify](#tinify) - Uses the tinify (tinyPNG / tinyJPG) API to compress the images.
 * ... more to come. Create an Issue or PullRequest if you want to include a new Backend.
 
 ### Tinify
+
  Uses the tinify (tinyPNG / tinyJPG) API to compress the images.
 
 #### Proxy
-```
+
+```bash
     --tinify-proxy    Proxy to use, to connect to the tinify services
 ```
 
@@ -60,7 +61,8 @@ $ rimg sqip pictures/*.png
 * Required: `optional`
 
 #### API Key
-```
+
+```bash
     --tinify-api-key  API Key to get access to the tinify services
 ```
 

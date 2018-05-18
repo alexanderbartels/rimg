@@ -39,7 +39,7 @@ import { TinifyThumbExecutor } from './TinifyThumbExecutor';
                 describe: 'API Key to get access to the tinify services',
                 type: 'string'
             }
-        }
+        };
     }
  }
 

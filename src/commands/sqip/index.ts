@@ -38,14 +38,14 @@ export class SqipCommand extends AbstractCommand {
 }
 
 export class SqipCommandModule extends AbstractCommandModule {
-    static NAME = 'sqip'
+    static NAME = 'sqip';
 
     constructor(logger: Logger, backends: Backends) {
         super(SqipCommandModule.NAME, logger, backends);
     }
 
     moduleDescription(): string {
-        return 'Generates a svg placeholder image using the sqip method'
+        return 'Generates a svg placeholder image using the sqip method';
     }
     
     createCommand(args: any): AbstractCommand {

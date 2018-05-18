@@ -1,5 +1,4 @@
-
-# Software Design
+# Software Design Overview
 
 ```plantuml
 @startuml

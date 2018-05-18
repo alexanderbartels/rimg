@@ -20,14 +20,14 @@ export class CompressCommand extends AbstractCommand {
 }
 
 export class CompressCommandModule extends AbstractCommandModule {
-    static NAME = 'compress'
+    static NAME = 'compress';
 
     constructor(logger: Logger, backends: Backends) {
         super(CompressCommandModule.NAME, logger, backends);
     }
 
     moduleDescription(): string {
-        return 'Compresses the provided images with the goal to reach as small image files as possible'
+        return 'Compresses the provided images with the goal to reach as small image files as possible';
     }
     
     createCommand(args: any): AbstractCommand {

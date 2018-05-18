@@ -3,18 +3,18 @@ import { Logger } from '../util/Logger';
 
 
 export interface CommandExecutor {
-    init(args: any): this
+    init(args: any): this;
 
-    process(file: string, outdir: string): void
+    process(file: string, outdir: string): void;
 
     // checks if this executor can process the given file
-    supportFile(file: string): boolean
+    supportFile(file: string): boolean;
 }
 
 export abstract class Backend {
 
-    supportedCommands: string[]
-    commandExecutors: { [key :string]: CommandExecutor}
+    supportedCommands: string[];
+    commandExecutors: { [key :string]: CommandExecutor};
 
     constructor() {
         this.supportedCommands = [];
@@ -28,7 +28,7 @@ export abstract class Backend {
     }
 
     // backend name
-    abstract getName(): string
+    abstract getName(): string;
 
     // commands which can be processed by the backend
     getSupportedCommands(): string[] {
@@ -36,7 +36,7 @@ export abstract class Backend {
     }
 
     // A Backend must provide its possible options
-    abstract getOptions(): {[flag :string] :Options}
+    abstract getOptions(): {[flag :string] :Options};
 
     // checks if a backend supports a given command
     hasSupport(command: string) {
@@ -60,7 +60,7 @@ export class Backends {
 
     registerBackend(backend: Backend) {
         if (this.registry[backend.getName()]) {
-            throw `Backend with name ${backend.getName()} is already registered.`;
+            throw new Error(`Backend with name ${backend.getName()} is already registered.`);
         }
 
         this.registry[backend.getName()] = backend;
@@ -96,7 +96,7 @@ export class Backends {
                 opts = {
                     ...opts,
                     ...backend.getOptions()
-                }
+                };
             }
         });
 

@@ -12,7 +12,7 @@ import { Logger } from './../util/Logger';
 import { Backends, Backend, CommandExecutor } from './../backends/index';
 
 export interface Command {
-    name: string
+    name: string;
 }
 
 export abstract class AbstractCommand implements Command {
@@ -21,9 +21,9 @@ export abstract class AbstractCommand implements Command {
 
     logger: Logger;
     outdir: string;
-    files: string[]
+    files: string[];
 
-    executors: CommandExecutor[]
+    executors: CommandExecutor[];
 
     constructor(name: string, logger: Logger, backends: Backends, args: any) {
         this.name = name;
@@ -60,9 +60,9 @@ export abstract class AbstractCommand implements Command {
 
 export abstract class AbstractCommandModule {
     // command name
-    name: string
-    backends: Backends
-    logger: Logger
+    name: string;
+    backends: Backends;
+    logger: Logger;
 
     constructor(name: string, logger: Logger, backends: Backends) {
         this.name = name;
@@ -71,13 +71,13 @@ export abstract class AbstractCommandModule {
     }
 
     // return the clid description for the module.
-    abstract moduleDescription(): string
+    abstract moduleDescription(): string;
     
     // returns a new command instance
-    abstract createCommand(args: any): AbstractCommand
+    abstract createCommand(args: any): AbstractCommand;
 
     // custom command options can be appended to the argument.
-    abstract builder(argv :Argv): Argv
+    abstract builder(argv :Argv): Argv;
 
     create() :yargs.CommandModule  {
         return {
@@ -102,6 +102,6 @@ export abstract class AbstractCommandModule {
                 // add options for supported backends
                 .options(this.backends.generateOptions(supportedBackends)));
             }
-        } 
+        }; 
     }
 }

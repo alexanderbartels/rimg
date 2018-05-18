@@ -7,10 +7,10 @@ import * as sqip from 'sqip';
 
 export class SqipExecutor implements CommandExecutor {
 
-    tinifyService: any
-    logger: Logger
+    tinifyService: any;
+    logger: Logger;
 
-    args: any
+    args: any;
 
     constructor (logger: Logger) {
         this.logger = logger;
@@ -31,11 +31,11 @@ export class SqipExecutor implements CommandExecutor {
 
     process(file: string, outdir: string) {
         // setup target directory
-        var target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-sqip');
+        let target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-sqip');
         fx.mkdirSync(path.dirname(target));
 
         // create sqip image
-        var result =  sqip({
+        let result =  sqip({
             filename: file,
             numberOfPrimitives: this.args['primitive-count'],
             mode: this.args['primitive-mode'],
@@ -49,9 +49,9 @@ export class SqipExecutor implements CommandExecutor {
             '\n', file, ' -> ', target
         ]);
 
-        var sourceSize = fs.statSync(file).size;
-        var targetSize = fs.statSync(target).size;
-        var reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
+        let sourceSize = fs.statSync(file).size;
+        let targetSize = fs.statSync(target).size;
+        let reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
 
         this.logger.println([
             '\t', reducedSize, '% reduced size. ',

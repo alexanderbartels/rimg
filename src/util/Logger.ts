@@ -1,6 +1,6 @@
 
 export interface LoggerArgs {
-    quiet: boolean
+    quiet: boolean;
 }
 
 export class Logger {
@@ -31,11 +31,19 @@ export class Logger {
 
     println (msg: string[]) {
         if (this.quiet) return;
-        this.stdout.apply(console, msg);
+        this._stdout(msg);
     }
 
     eprintln(msg: string[]) {
         if (this.quiet) return;
+        this._stderr(msg);
+    }
+
+    _stdout(msg: string[]) {
+        this.stdout.apply(console, [...msg]);
+    }
+
+    _stderr(msg: string[]) {
         this.stderr.apply(console, ["Error: ", ...msg]);
     }
 }

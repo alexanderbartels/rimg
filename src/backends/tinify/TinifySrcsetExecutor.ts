@@ -9,8 +9,8 @@ import * as sizeOf from 'image-size';
 
 export class TinifySrcsetExecutor implements CommandExecutor {
 
-   tinifyService: any
-   logger: Logger
+   tinifyService: any;
+   logger: Logger;
 
    constructor (logger: Logger) {
     this.logger = logger;
@@ -36,18 +36,18 @@ export class TinifySrcsetExecutor implements CommandExecutor {
 
    processReady(err: any, file :string, targetX1 :string, targetX2 :string) {
        if (err) {
-           this.logger.eprintln(['Unable to compress file: ', file, err])
+           this.logger.eprintln(['Unable to compress file: ', file, err]);
        } else {
            this.logger.force().println([
                    '\n', file, ' -> [', targetX1, ', ', targetX2, ']',
            ]);
 
-           var sourceSize = fs.statSync(file).size;
-           var targetX1Size = fs.statSync(targetX1).size;
-           var targetX2Size = fs.statSync(targetX2).size;
+           let sourceSize = fs.statSync(file).size;
+           let targetX1Size = fs.statSync(targetX1).size;
+           let targetX2Size = fs.statSync(targetX2).size;
 
-           var reducedX1Size = (100 - (targetX1Size * 100 / sourceSize)).toFixed(2);
-           var reducedX2Size = (100 - (targetX2Size * 100 / sourceSize)).toFixed(2);
+           let reducedX1Size = (100 - (targetX1Size * 100 / sourceSize)).toFixed(2);
+           let reducedX2Size = (100 - (targetX2Size * 100 / sourceSize)).toFixed(2);
 
            this.logger.println([
                '\t',  reducedX1Size, '% reduced file size for -1x',
@@ -64,7 +64,7 @@ export class TinifySrcsetExecutor implements CommandExecutor {
                } else {
                    resolve();
                }
-           })
+           });
        });
    }
 
@@ -82,8 +82,8 @@ export class TinifySrcsetExecutor implements CommandExecutor {
        const targetWidth = Math.round(inputWidth / 2);
 
        // compress and resize file
-       var source = this.tinifyService.fromFile(file);
-       var resized = source.resize({
+       let source = this.tinifyService.fromFile(file);
+       let resized = source.resize({
            method: "scale",
            width: targetWidth,
        });
