@@ -1,10 +1,8 @@
 # rimg - responsive image creation
-<p align="center>
 [![CircleCI](https://circleci.com/gh/alexanderbartels/rimg/tree/master.svg?style=svg&circle-token=ff6d2ff4c09a89609883406677a3d341fe2ad319)](https://circleci.com/gh/alexanderbartels/rimg/tree/master)
 [![dependencies](https://david-dm.org/alexanderbartels/rimg/status.svg)](https://david-dm.org/alexanderbartels/rimg)
 [![dev dependencies](https://david-dm.org/alexanderbartels/rimg/dev-status.svg)](https://david-dm.org/alexanderbartels/rimg?type=dev)
 [![npm version](https://badge.fury.io/js/rimg-cli.svg)](https://www.npmjs.com/package/rimg-cli)
-</p>
           
 <p align="center">
  <a href="https://github.com/alexanderbartels/jet">
