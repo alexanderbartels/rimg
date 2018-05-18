@@ -42,12 +42,12 @@ export class TinifySrcsetExecutor implements CommandExecutor {
                    '\n', file, ' -> [', targetX1, ', ', targetX2, ']',
            ]);
 
-           let sourceSize = fs.statSync(file).size;
-           let targetX1Size = fs.statSync(targetX1).size;
-           let targetX2Size = fs.statSync(targetX2).size;
+           const sourceSize = fs.statSync(file).size;
+           const targetX1Size = fs.statSync(targetX1).size;
+           const targetX2Size = fs.statSync(targetX2).size;
 
-           let reducedX1Size = (100 - (targetX1Size * 100 / sourceSize)).toFixed(2);
-           let reducedX2Size = (100 - (targetX2Size * 100 / sourceSize)).toFixed(2);
+           const reducedX1Size = (100 - (targetX1Size * 100 / sourceSize)).toFixed(2);
+           const reducedX2Size = (100 - (targetX2Size * 100 / sourceSize)).toFixed(2);
 
            this.logger.println([
                '\t',  reducedX1Size, '% reduced file size for -1x',
@@ -82,8 +82,8 @@ export class TinifySrcsetExecutor implements CommandExecutor {
        const targetWidth = Math.round(inputWidth / 2);
 
        // compress and resize file
-       let source = this.tinifyService.fromFile(file);
-       let resized = source.resize({
+       const source = this.tinifyService.fromFile(file);
+       const resized = source.resize({
            method: "scale",
            width: targetWidth,
        });

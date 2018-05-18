@@ -31,11 +31,11 @@ export class SqipExecutor implements CommandExecutor {
 
     process(file: string, outdir: string) {
         // setup target directory
-        let target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-sqip');
+        const target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-sqip');
         fx.mkdirSync(path.dirname(target));
 
         // create sqip image
-        let result =  sqip({
+        const result =  sqip({
             filename: file,
             numberOfPrimitives: this.args['primitive-count'],
             mode: this.args['primitive-mode'],
@@ -49,9 +49,9 @@ export class SqipExecutor implements CommandExecutor {
             '\n', file, ' -> ', target
         ]);
 
-        let sourceSize = fs.statSync(file).size;
-        let targetSize = fs.statSync(target).size;
-        let reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
+        const sourceSize = fs.statSync(file).size;
+        const targetSize = fs.statSync(target).size;
+        const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
 
         this.logger.println([
             '\t', reducedSize, '% reduced size. ',

@@ -28,11 +28,11 @@ export class TinifyCompressionExecutor implements CommandExecutor {
 
     process(file: string, outdir: string) {
         // setup target directory
-        let target = path.join(outdir, path.normalize(file));
+        const target = path.join(outdir, path.normalize(file));
         fx.mkdirSync(path.dirname(target));
 
         // compress file
-        let source = this.tinifyService.fromFile(file);
+        const source = this.tinifyService.fromFile(file);
         source.toFile(target, (err :any) => {
             if (err) {
                 this.logger.eprintln(['Unable to compress file: ', file]);
@@ -41,9 +41,9 @@ export class TinifyCompressionExecutor implements CommandExecutor {
                         '\n', file, ' -> ', target
                 ]);
 
-                let sourceSize = fs.statSync(file).size;
-                let targetSize = fs.statSync(target).size;
-                let reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
+                const sourceSize = fs.statSync(file).size;
+                const targetSize = fs.statSync(target).size;
+                const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
 
                 this.logger.println([
                     '\t', reducedSize, "% reduced size after compression"

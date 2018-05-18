@@ -38,8 +38,11 @@ describe('Quiet Logger', () => {
          * Force logger can not be quiet, so they can not be equals 
          */
         expect(logger.forceLogger).not.to.be.equals(logger);
+
+        /* tslint:disable:no-unused-expression */
         expect(logger.forceLogger.quiet).to.be.false;
         expect(logger.quiet).to.be.true;
+        /* tslint:enable:no-unused-expression */
     });
 
     it('should print forced error messages', () => {

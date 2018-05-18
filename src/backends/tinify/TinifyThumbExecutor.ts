@@ -38,12 +38,12 @@ export class TinifyThumbExecutor implements CommandExecutor {
 
     process(file: string, outdir: string) {
         // setup target directory
-        let target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-thumb');
+        const target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-thumb');
         fx.mkdirSync(path.dirname(target));
 
         // compress file
-        let source = this.tinifyService.fromFile(file);
-        let thumbed = source.resize({
+        const source = this.tinifyService.fromFile(file);
+        const thumbed = source.resize({
             method: "thumb",
             width: this.args.width,
             height: this.args.height
@@ -56,9 +56,9 @@ export class TinifyThumbExecutor implements CommandExecutor {
                         '\n', file, ' -> ', target
                 ]);
 
-                let sourceSize = fs.statSync(file).size;
-                let targetSize = fs.statSync(target).size;
-                let reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
+                const sourceSize = fs.statSync(file).size;
+                const targetSize = fs.statSync(target).size;
+                const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
 
                 this.logger.println([
                     '\t', reducedSize, "% reduced size through thumbnail creation"
