@@ -1,6 +1,6 @@
 <p align="center">
  <a href="https://github.com/alexanderbartels/jet">
-  <img alt="rimg logo" title="rimg" src="https://github.com/alexanderbartels/rimg/blob/master/logo.svg" width="256">
+  <img alt="rimg logo" title="rimg" src="https://github.com/alexanderbartels/rimg/blob/master/logo.svg" width="164">
  </a>
 </p>
 
