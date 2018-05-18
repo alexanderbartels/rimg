@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.3",
     "@types/mocha": "^5.2.0",
-    "@types/node": "^10.0.4",
+    "@types/node": "^10.1.1",
     "@types/sinon": "^4.3.3",
     "@types/yargs": "^11.0.0",
     "chai": "^4.1.2",
@@ -83,7 +83,7 @@
       "lcovonly",
       "text"
     ],
-    "all": true  
+    "all": true
   },
   "config": {
     "commitizen": {
