@@ -75,12 +75,13 @@
     ],
     "exclude": [
       "**/*.d.ts",
-      "build/**/*",
+      "**/*",
+      "!src/**/*",
       "**/*.spec.ts"
     ],
     "reporter": [
-      "text",
-      "clover"
+      "lcovonly",
+      "text"
     ],
     "all": true  
   },
