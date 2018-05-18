@@ -5,8 +5,8 @@
 [![npm version](https://badge.fury.io/js/rimg-cli.svg)](https://www.npmjs.com/package/rimg-cli)
           
 <p align="center">
- <a href="https://github.com/alexanderbartels/jet">
-  <img alt="rimg logo" title="rimg" src="https://github.com/alexanderbartels/rimg/blob/master/logo.svg" width="164">
+ <a href="https://github.com/alexanderbartels/rimg">
+  <img alt="rimg logo" title="rimg" src="https://github.com/alexanderbartels/rimg/blob/master/docs/_media/logo.svg" width="164">
  </a>
 </p>
 
@@ -22,14 +22,14 @@ $ rimg --help
 
 ## Documentation
 
-A complete documentation can be found at our [documentation website](https://github.com/alexanderbartels/rimg) that is hosted via GitHub Pages. The source can be found inside the `docs` folder. We're using [docsify](https://docsify.js.org/) to generate the website from markdown files.
+A complete documentation can be found at our [documentation website](https://alexanderbartels.github.io/rimg/) that is hosted via GitHub Pages. The source can be found inside the `docs` folder. We're using [docsify](https://docsify.js.org/) to generate the website from markdown files.
 
 ## Building yourself
 
 Build is done via `npm scripts`. But for native packaging the `pgk` module is used. To build the native package, that don't need node.js installed at runtime, a custom `pkg`fork is needed, until the open pull requests are merged.
 
 ```bash
-// complete build (don't forget to link the custom pkg module) 
+// complete build (don't forget to link the custom pkg module)
 $ npm run build
 
 // if you're only want to provide the npm command locally and don't need the distribution packages

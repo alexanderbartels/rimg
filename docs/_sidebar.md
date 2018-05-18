@@ -1,6 +1,6 @@
 
 * Getting started
-  * [Quick start](quickstart.md)
+  * [Quick start](#quickstart)
   * [Advanced Usage](advanced.md)
 
 * Commands
