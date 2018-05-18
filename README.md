@@ -1,5 +1,5 @@
 # rimg - responsive image creation
-[![CircleCI](https://circleci.com/gh/alexanderbartels/rimg.svg?style=shield)](https://circleci.com/gh/alexanderbartels/rimg)
+[![CircleCI](https://circleci.com/gh/alexanderbartels/rimg/tree/master.svg?style=svg)](https://circleci.com/gh/alexanderbartels/rimg/tree/master)
 [![dependencies](https://david-dm.org/alexanderbartels/rimg/status.svg)](https://david-dm.org/alexanderbartels/rimg)
 [![dev dependencies](https://david-dm.org/alexanderbartels/rimg/dev-status.svg)](https://david-dm.org/alexanderbartels/rimg?type=dev)
 [![npm version](https://badge.fury.io/js/rimg-cli.svg)](https://www.npmjs.com/package/rimg-cli)
