@@ -1,4 +1,4 @@
-![rimg](https://github.com/alexanderbartels/rimg/blob/master/logo.jpg)
+![rimg](https://github.com/alexanderbartels/rimg/blob/master/logo.svg)
 
 # rimg
 Rimg is a tool created to make life easier for People how must create (responsive) images for the web. rimg stand for *r*esponsive-*im*a*g*e. 
