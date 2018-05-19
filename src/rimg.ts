@@ -18,7 +18,7 @@ import { SqipCommandModule } from './commands/sqip';
 import { ThumbCommandModule } from './commands/thumb/index';
 import { CompressCommandModule } from './commands/compress/index';
 import { PrimitiveBackend } from './backends/primitive/index';
-
+import { SvgoBackend } from './backends/svgo';
 
 const logger = new Logger({quiet: false});
 
@@ -26,6 +26,7 @@ const logger = new Logger({quiet: false});
 const backends = new Backends();
 backends.registerBackend(new TinifyBackend(logger));
 backends.registerBackend(new PrimitiveBackend(logger));
+backends.registerBackend(new SvgoBackend(logger));
 
 const argv = yargs
     .usage('resp-img <cmd> [args]')

@@ -70,14 +70,16 @@
   },
   "nyc": {
     "extension": [
-      ".ts",
-      ".tsx"
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
     ],
     "exclude": [
       "**/*.d.ts",
       "**/*",
-      "!src/**/*",
-      "**/*.spec.ts"
+      "**/*.spec.ts",
+      "!src/**/*.ts"
     ],
     "reporter": [
       "lcovonly",
