@@ -1,0 +1,4 @@
+
+describe('svgo backend', () => {
+    // TODO.
+});

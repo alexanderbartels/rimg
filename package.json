@@ -4,19 +4,20 @@
   "description": "responsive-image generator",
   "main": "index.js",
   "bin": {
-    "rimg": "./build/rimg.js"
+    "rimg": "./build/src/rimg.js"
   },
   "scripts": {
     "docs:serve": "docsify serve ./docs",
     "commit": "git-cz",
     "test:unit": "nyc mocha -r ts-node/register --require source-map-support/register --recursive src/**/*.spec.ts",
+    "test:adr": "mocha -r ts-node/register --require source-map-support/register --recursive test/adr/*.spec.ts",
     "test": "npm run test:unit",
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc -p .",
     "fix": "gts fix",
-    "build": "npm run compile && pkg build/rimg.js --targets latest --out-path target",
-    "build:all": "npm run compile && pkg build/rimg.js --targets node8-linux,node8-macos,node8-win --out-path target",
+    "build": "npm run compile && pkg build/src/rimg.js --targets latest --out-path target",
+    "build:all": "npm run compile && pkg build/src/rimg.js --targets node8-linux,node8-macos,node8-win --out-path target",
     "prepare": "npm run build",
     "pretest2": "npm run build",
     "posttest2": "npm run check",

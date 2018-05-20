@@ -1,0 +1,4 @@
+
+describe('compress command', () => {
+    // TODO.
+});
