@@ -11,7 +11,7 @@
     "commit": "git-cz",
     "test:unit": "nyc mocha -r ts-node/register --require source-map-support/register --recursive src/**/*.spec.ts",
     "test:adr": "mocha -r ts-node/register --require source-map-support/register --recursive test/adr/*.spec.ts",
-    "test": "npm run test:unit",
+    "test": "npm run test:unit && npm run test:adr",
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc -p .",
