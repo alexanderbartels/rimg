@@ -1,4 +1,3 @@
-
-describe('rimg cli', () => {
-    // TODO.
+describe("rimg cli", () => {
+  // TODO.
 });
