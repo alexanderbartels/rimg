@@ -22,7 +22,7 @@ import { Logger } from '../../util/Logger';
         return SvgoBackend.SUPPORTED_COMMANDS;
   }
 
-  getOptions():  { [flag: string]: Options } {
+  getOptions(): { [flag: string]: Options } {
     return {
       
     };
