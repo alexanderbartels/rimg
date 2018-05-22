@@ -6,6 +6,12 @@
         "tslint-config-prettier"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "missing-jsdoc": false,
+        "no-import-side-effect": [true, {"ignore-module": "(\\.spec\\.ts)$"}],
+        "no-implicit-dependencies": [true, "dev"],
+        "interface-name": [true, "never-prefix"],
+        "no-relative-imports": false
+    },
     "rulesDirectory": []
 }

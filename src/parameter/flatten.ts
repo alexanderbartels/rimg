@@ -1,7 +1,7 @@
 import { Options } from "yargs";
 
 // -f as command line flag
-export const flag = "f";
+export const flag: string = "f";
 export const option: Options = {
   alias: "flatten",
   description:

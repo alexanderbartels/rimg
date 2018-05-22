@@ -36,18 +36,18 @@ export class Logger {
     this._stdout(msg);
   }
 
-  public eprintln(msg: string[]) {
+  public eprintln(msg: string[]): void {
     if (this.quiet) {
       return;
     }
     this._stderr(msg);
   }
 
-  public _stdout(msg: string[]) {
+  private _stdout(msg: string[]): void {
     this.stdout.apply(console, [...msg]);
   }
 
-  public _stderr(msg: string[]) {
+  private _stderr(msg: string[]): void {
     this.stderr.apply(console, ["Error: ", ...msg]);
   }
 }

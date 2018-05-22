@@ -1,7 +1,7 @@
 import { Options } from "yargs";
 
 // -q as command line flag
-export const flag = "q";
+export const flag: string = "q";
 export const option: Options = {
   alias: "quiet",
   description:
