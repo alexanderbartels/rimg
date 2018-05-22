@@ -44,6 +44,6 @@ export class Logger {
     }
 
     _stderr(msg: string[]) {
-        this.stderr.apply(console, ["Error: ", ...msg]);
+        this.stderr.apply(console, ['Error: ', ...msg]);
     }
 }

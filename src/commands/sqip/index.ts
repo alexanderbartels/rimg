@@ -31,7 +31,7 @@ export class SqipCommand extends AbstractCommand {
             if(executor) {
                 executor.process(file, this.outdir);
             } else {
-                this.logger.eprintln([" No backend from the configured ones are able to process this file: ", file]);
+                this.logger.eprintln([' No backend from the configured ones are able to process this file: ', file]);
             }
         });
     }

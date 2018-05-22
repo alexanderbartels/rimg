@@ -1,8 +1,8 @@
-import { Backend } from "..";
-import { CompressCommandModule } from "../../commands/compress";
-import { Options } from "yargs";
-import { SvgoCompressionExecutor } from "./SvgoCompressionExecutor";
-import { Logger } from "../../util/Logger";
+import { Backend } from '..';
+import { CompressCommandModule } from '../../commands/compress';
+import { Options } from 'yargs';
+import { SvgoCompressionExecutor } from './SvgoCompressionExecutor';
+import { Logger } from '../../util/Logger';
 
 
  export class SvgoBackend extends Backend {

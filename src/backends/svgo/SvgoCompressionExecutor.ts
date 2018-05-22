@@ -43,7 +43,7 @@ export class SvgoCompressionExecutor implements CommandExecutor {
           const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
 
           this.logger.println([
-            '\t', reducedSize, "% reduced size after compression"
+            '\t', reducedSize, '% reduced size after compression'
           ]);
         });
     }

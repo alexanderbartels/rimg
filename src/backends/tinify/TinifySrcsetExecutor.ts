@@ -84,7 +84,7 @@ export class TinifySrcsetExecutor implements CommandExecutor {
        // compress and resize file
        const source = this.tinifyService.fromFile(file);
        const resized = source.resize({
-           method: "scale",
+           method: 'scale',
            width: targetWidth,
        });
 

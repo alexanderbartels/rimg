@@ -44,7 +44,7 @@ export class TinifyThumbExecutor implements CommandExecutor {
         // compress file
         const source = this.tinifyService.fromFile(file);
         const thumbed = source.resize({
-            method: "thumb",
+            method: 'thumb',
             width: this.args.width,
             height: this.args.height
         });
@@ -61,7 +61,7 @@ export class TinifyThumbExecutor implements CommandExecutor {
                 const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
 
                 this.logger.println([
-                    '\t', reducedSize, "% reduced size through thumbnail creation"
+                    '\t', reducedSize, '% reduced size through thumbnail creation'
                 ]);
             }
         });
