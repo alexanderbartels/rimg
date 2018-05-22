@@ -8,15 +8,20 @@
   },
   "scripts": {
     "docs:serve": "docsify serve ./docs",
+    "precommit": "pretty-quick --staged",
     "commit": "git-cz",
-    "test:unit": "nyc mocha -r ts-node/register --require source-map-support/register --recursive \"src/**/*.spec.ts\"",
-    "test:adr": "mocha -r ts-node/register --require source-map-support/register --recursive test/adr/*.spec.ts",
+    "test:unit":
+      "nyc mocha -r ts-node/register --require source-map-support/register --recursive \"src/**/*.spec.ts\"",
+    "test:adr":
+      "mocha -r ts-node/register --require source-map-support/register --recursive test/adr/*.spec.ts",
     "test": "npm run test:unit && npm run test:adr",
     "lint": "tslint -c tslint.json \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint:fix": "npm run lint -- --fix",
     "compile": "tsc -p .",
-    "build": "npm run compile && pkg build/src/rimg.js --targets latest --out-path target",
-    "build:all": "npm run compile && pkg build/src/rimg.js --targets node8-linux,node8-macos,node8-win --out-path target",
+    "build":
+      "npm run compile && pkg build/src/rimg.js --targets latest --out-path target",
+    "build:all":
+      "npm run compile && pkg build/src/rimg.js --targets node8-linux,node8-macos,node8-win --out-path target",
     "prepare": "npm run build",
     "pretest2": "npm run build",
     "posttest2": "npm run check",
@@ -26,13 +31,9 @@
     "type": "git",
     "url": "https://github.com/alexanderbartels/rimg.git"
   },
-  "keywords": [
-    "responsive",
-    "images",
-    "srcset",
-    "picture"
-  ],
-  "author": "Alexander Bartels <bartels.xander@gmail.com> (http://www.alexanderbartels.com)",
+  "keywords": ["responsive", "images", "srcset", "picture"],
+  "author":
+    "Alexander Bartels <bartels.xander@gmail.com> (http://www.alexanderbartels.com)",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/alexanderbartels/rimg/issues"
@@ -48,10 +49,12 @@
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.1.0",
     "docsify-cli": "^4.2.1",
+    "husky": "^0.14.3",
     "mocha": "^5.1.1",
     "nyc": "^11.8.0",
     "pkg": "^4.3.1",
     "prettier": "^1.12.1",
+    "pretty-quick": "^1.5.1",
     "semantic-release": "^15.4.1",
     "sinon": "^5.0.7",
     "source-map-support": "^0.5.6",
@@ -72,22 +75,10 @@
     "yargs": "^11.0.0"
   },
   "nyc": {
-    "extension": [
-      ".ts"
-    ],
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "**/*.d.ts",
-      "**/*",
-      "**/*.spec.ts",
-      "!src/**/*.ts"
-    ],
-    "reporter": [
-      "lcovonly",
-      "text"
-    ],
+    "extension": [".ts"],
+    "include": ["src/**/*.ts"],
+    "exclude": ["**/*.d.ts", "**/*", "**/*.spec.ts", "!src/**/*.ts"],
+    "reporter": ["lcovonly", "text"],
     "all": true
   },
   "config": {
@@ -100,9 +91,7 @@
       "@semantic-release/npm",
       {
         "path": "@semantic-release/github",
-        "assets": [
-          "target/*"
-        ]
+        "assets": ["target/*"]
       }
     ]
   }
