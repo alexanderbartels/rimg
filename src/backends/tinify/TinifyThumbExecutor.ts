@@ -1,23 +1,21 @@
-import { CommandExecutor } from '../index';
+import { AbstractCommandExecutor } from '../index';
 import { Logger } from '../../util/Logger';
 
 import * as tinify from 'tinify';
-import * as fs from 'fs';
-import * as fx from 'mkdir-recursive';
-import * as path from 'path';
+import { TinifyBackend } from '.';
 
-export class TinifyThumbExecutor implements CommandExecutor {
+export class TinifyThumbExecutor extends AbstractCommandExecutor {
 
     tinifyService: any;
-    logger: Logger;
-
     args: any;
 
     constructor (logger: Logger) {
-        this.logger = logger;
+        super(logger, TinifyBackend.SUPPORTED_FILE_TYPES);
     }
 
     init(args: any) {
+        super.init(args);
+
         this.args = args;
         this.tinifyService = tinify;
 
@@ -29,46 +27,27 @@ export class TinifyThumbExecutor implements CommandExecutor {
         return this;
     }
 
-    getTargetFileName(outdir: string, file: path.ParsedPath, suffix: string): string {
-        return path.join(outdir, path.format(Object.assign({}, file, {
-            name: file.name + suffix,
-            base: undefined
-        })));
-    }
-
     process(file: string, outdir: string) {
         // setup target directory
-        const target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-thumb');
-        fx.mkdirSync(path.dirname(target));
+        const target = this.setupTarget(file, {
+            suffix: '-thumb'
+        });
 
-        // compress file
+        // create thumbnail and compress file
         const source = this.tinifyService.fromFile(file);
         const thumbed = source.resize({
             method: 'thumb',
             width: this.args.width,
             height: this.args.height
         });
+
         thumbed.toFile(target, (err :any) => {
             if (err) {
                 this.logger.eprintln(['Unable to create thumbnail for file: ', file, err]);
             } else {
-                this.logger.force().println([
-                        '\n', file, ' -> ', target
-                ]);
-
-                const sourceSize = fs.statSync(file).size;
-                const targetSize = fs.statSync(target).size;
-                const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
-
-                this.logger.println([
-                    '\t', reducedSize, '% reduced size through thumbnail creation'
-                ]);
+                this.printSuccess(file, target);
+                this.printReducedFileSize(file, target);
             }
         });
     }
-
-    supportFile(file: string) {
-        // Check for file extension if the given file is supported.
-        return ['.png', '.jpg', '.jpeg'].indexOf(path.parse(file).ext) !== -1;
-    }
- }
+}

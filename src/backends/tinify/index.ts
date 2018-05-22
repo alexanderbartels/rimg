@@ -10,6 +10,7 @@ import { TinifySrcsetExecutor } from './TinifySrcsetExecutor';
 import { TinifyThumbExecutor } from './TinifyThumbExecutor';
 
  export class TinifyBackend extends Backend {
+    public static SUPPORTED_FILE_TYPES = ['.png', '.jpg', '.jpeg'];
     private static NAME = 'tinify';
     private static SUPPORTED_COMMANDS = [CompressCommandModule.NAME, SrcsetCommandModule.NAME, ThumbCommandModule.NAME];
 

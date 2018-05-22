@@ -6,6 +6,7 @@ import * as globby from 'globby';
 
 // import parameter
 import {flag as OutputFlag, option as OutputOption} from './../parameter/output';
+import {flag as FlattenFlag, option as FlattenOption} from './../parameter/flatten';
 import {flag as BackendFlag, generateOption as generateBackendOption} from './../parameter/backend';
 
 import { Logger } from './../util/Logger';
@@ -92,16 +93,18 @@ export abstract class AbstractCommandModule {
                 const supportedBackends :string[] = this.backends.getSupportedBackends(this.name);
 
                 return this.builder(yargs.positional('files', {
-                    describe: 'File pattern (globby notation) for images to create the thumbnails from',
+                    describe: 'File pattern (globby notation) for images to create the thumbnails from.',
                     type: 'string'
                 })
                 // support for -o --output to store the compressed images
                 .option(OutputFlag, OutputOption)
+                // support for -f --flatten to write all files directly to the output directory
+                .option(FlattenFlag, FlattenOption)
                 // support for the backend option (-b --backend). Compress uses tinify as default
                 .option(BackendFlag, generateBackendOption(supportedBackends))
                 // add options for supported backends
                 .options(this.backends.generateOptions(supportedBackends)));
             }
-        }; 
+        };
     }
 }

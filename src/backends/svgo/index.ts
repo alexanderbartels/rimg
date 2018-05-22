@@ -4,8 +4,8 @@ import { Options } from 'yargs';
 import { SvgoCompressionExecutor } from './SvgoCompressionExecutor';
 import { Logger } from '../../util/Logger';
 
-
- export class SvgoBackend extends Backend {
+export class SvgoBackend extends Backend {
+  public static SUPPORTED_FILE_TYPES = ['.svg'];
   private static NAME = 'svgo';
   private static SUPPORTED_COMMANDS = [CompressCommandModule.NAME];
 

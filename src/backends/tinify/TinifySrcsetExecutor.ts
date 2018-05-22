@@ -1,60 +1,41 @@
-import { CommandExecutor } from '../index';
+import { CommandExecutor, AbstractCommandExecutor } from '../index';
 import { Logger } from '../../util/Logger';
 
 import * as tinify from 'tinify';
-import * as fs from 'fs';
-import * as fx from 'mkdir-recursive';
-import * as path from 'path';
 import * as sizeOf from 'image-size';
+import { TinifyBackend } from '.';
 
-export class TinifySrcsetExecutor implements CommandExecutor {
+export class TinifySrcsetExecutor extends AbstractCommandExecutor {
 
    tinifyService: any;
-   logger: Logger;
 
-   constructor (logger: Logger) {
-    this.logger = logger;
-   }
+    constructor (logger: Logger) {
+        super(logger, TinifyBackend.SUPPORTED_FILE_TYPES);
+    }
 
-   init (args: any) {
-       this.tinifyService = tinify;
+    init (args: any) {
+        super.init(args);
 
-       this.tinifyService.key = args['tinify-api-key'];
-       if (args['tinify-proxy']) {
-           this.tinifyService.proxy = args['tinify-proxy'];
-       }
+        this.tinifyService = tinify;
+        this.tinifyService.key = args['tinify-api-key'];
+        if (args['tinify-proxy']) {
+            this.tinifyService.proxy = args['tinify-proxy'];
+        }
 
-       return this;
-   }
+        return this;
+    }
 
-   getTargetFileName(outdir: string, file: path.ParsedPath, suffix: string): string {
-       return path.join(outdir, path.format(Object.assign({}, file, {
-           name: file.name + suffix,
-           base: undefined
-       })));
-   }
-
-   processReady(err: any, file :string, targetX1 :string, targetX2 :string) {
-       if (err) {
-           this.logger.eprintln(['Unable to compress file: ', file, err]);
-       } else {
-           this.logger.force().println([
-                   '\n', file, ' -> [', targetX1, ', ', targetX2, ']',
-           ]);
-
-           const sourceSize = fs.statSync(file).size;
-           const targetX1Size = fs.statSync(targetX1).size;
-           const targetX2Size = fs.statSync(targetX2).size;
-
-           const reducedX1Size = (100 - (targetX1Size * 100 / sourceSize)).toFixed(2);
-           const reducedX2Size = (100 - (targetX2Size * 100 / sourceSize)).toFixed(2);
-
-           this.logger.println([
-               '\t',  reducedX1Size, '% reduced file size for -1x',
-               '\n\t', reducedX2Size, '% reduced file size for -2x'
-           ]);
-       }
-   }
+    processReady(err: any, file :string, targetX1 :string, targetX2 :string) {
+        if (err) {
+            this.logger.eprintln(['Unable to compress file: ', file, err]);
+        } else {
+            this.printSuccess(file, targetX1);
+            this.printReducedFileSize(file, targetX1);
+        
+            this.printSuccess(file, targetX2);
+            this.printReducedFileSize(file, targetX2);
+        }
+    }
 
    toFile(tinifySource: any, targetFile: string): Promise<any> {
        return new Promise((resolve, reject) => {
@@ -70,12 +51,8 @@ export class TinifySrcsetExecutor implements CommandExecutor {
 
    process(file: string, outdir: string) {
        // TODO target is with -1x appended. 
-       const parsedPath = path.parse(path.normalize(file));
-       const targetX1 = this.getTargetFileName(outdir, parsedPath, '-1x');
-       const targetX2 = this.getTargetFileName(outdir, parsedPath, '-2x');
-
-       // setup target directory
-       fx.mkdirSync(path.dirname(targetX1));
+       const targetX1 = this.setupTarget(file, { suffix: '-@1x' });
+       const targetX2 = this.setupTarget(file, { suffix: '-@2x' });
 
        // get width from the input image
        const inputWidth = sizeOf(file).width;
@@ -97,11 +74,4 @@ export class TinifySrcsetExecutor implements CommandExecutor {
            this.processReady(err, file, targetX1, targetX2);
        });
    }
-
-   supportFile(file: string) {
-       // Check for file extension if the given file is supported.
-       return ['.png', '.jpg', '.jpeg'].indexOf(path.parse(file).ext) !== -1;
-   }
 }
-
-

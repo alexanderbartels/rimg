@@ -1,6 +1,9 @@
-import { Options } from "yargs";
+import { Options } from 'yargs';
 import { Logger } from '../util/Logger';
 
+import * as path from 'path';
+import * as fs from 'fs';
+import * as fx from 'mkdir-recursive';
 
 export interface CommandExecutor {
     init(args: any): this;
@@ -9,6 +12,80 @@ export interface CommandExecutor {
 
     // checks if this executor can process the given file
     supportFile(file: string): boolean;
+}
+
+export interface TargetFileOptions {
+    outdir?: string,
+    suffix: string,
+    flatten?: boolean
+}
+
+export abstract class AbstractCommandExecutor implements CommandExecutor {
+    
+    logger: Logger;
+    supportedFileTypes: string[];
+    flatten: boolean = false;
+    outdir?: string;
+
+    constructor(logger: Logger, supportedFileTypes: string[]) {
+        this.logger = logger;
+        this.supportedFileTypes = supportedFileTypes;
+    }
+
+    init(args: any) {
+        this.outdir = args['output'];
+        this.flatten = args['flatten'] || false;
+        return this;
+    }
+
+    abstract process(file: string, outdir: string): void;
+
+    supportFile(file: string) {
+        return this.supportedFileTypes.indexOf(path.parse(file).ext) !== -1;
+    }
+
+    /**
+     * get the target file name 
+     */
+    getTargetFileName(file: path.ParsedPath, opts: TargetFileOptions): string {
+        return path.join(opts.outdir || '', path.format(Object.assign({}, file, {
+            name: file.name + opts.suffix,
+            dir: opts.flatten ? '' : file.dir,
+            base: undefined
+        })));
+    }
+
+    /**
+     * @return #getTargetFileName()
+     */
+    setupTarget(file: string, opts: TargetFileOptions): string {
+        const targetFileName = this.getTargetFileName(
+            path.parse(path.normalize(file)), 
+            Object.assign({
+                outdir: this.outdir,
+                flatten: this.flatten
+            }, opts));
+
+        // create needed directories
+        fx.mkdirSync(path.dirname(targetFileName));
+        return targetFileName;
+    }
+
+    printSuccess(inputFile: string, targetFile: string) {
+        this.logger.force().println([
+            '\n', inputFile, ' -> ', targetFile
+        ]);
+    }
+
+    printReducedFileSize(inputFile: string, targetFile: string) {
+        const sourceSize = fs.statSync(inputFile).size;
+        const targetSize = fs.statSync(targetFile).size;
+        const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
+
+        this.logger.println([
+            '\t', reducedSize, '% reduced size'
+        ]);
+    }
 }
 
 export abstract class Backend {

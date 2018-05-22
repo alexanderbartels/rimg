@@ -1,4 +1,4 @@
-import { CommandExecutor } from '../index';
+import { AbstractCommandExecutor } from '../index';
 import { Logger } from '../../util/Logger';
 
 import * as fs from 'fs';
@@ -6,24 +6,19 @@ import * as fx from 'mkdir-recursive';
 import * as path from 'path';
 
 import * as SVGO from 'svgo';
+import { SvgoBackend } from '.';
 
-export class SvgoCompressionExecutor implements CommandExecutor {
-
-    logger: Logger;
-
+export class SvgoCompressionExecutor extends AbstractCommandExecutor {
     constructor(logger: Logger) {
-        this.logger = logger;
-    }
-
-    init(args: any) {
-      return this;
+      super(logger, SvgoBackend.SUPPORTED_FILE_TYPES);
     }
 
     process(file: string, outdir: string) {
       // setup target directory
-      const target = path.join(outdir, path.normalize(file));
-      fx.mkdirSync(path.dirname(target));
-    
+      const target = this.setupTarget(file, {
+        suffix: '.min'
+      });
+      
       // intiaite svgo with default configuration
       const svgo = new SVGO();
 
@@ -31,25 +26,11 @@ export class SvgoCompressionExecutor implements CommandExecutor {
       const fileData = fs.readFileSync(file);
       svgo.optimize(fileData.toString(), {path: file})
         .then((result) => {
-          // write sqip to svg file
+          // write minified svg back to file
           fs.writeFileSync(target, result.data);
           
-          this.logger.force().println([
-            '\n', file, ' -> ', target
-          ]);
-
-          const sourceSize = fs.statSync(file).size;
-          const targetSize = fs.statSync(target).size;
-          const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
-
-          this.logger.println([
-            '\t', reducedSize, '% reduced size after compression'
-          ]);
+          this.printSuccess(file, target);
+          this.printReducedFileSize(file, target);
         });
-    }
-
-    supportFile(file: string) {
-        // Check for file extension if the given file is supported.
-        return ['.svg'].indexOf(path.parse(file).ext) !== -1;
     }
 }

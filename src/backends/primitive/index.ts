@@ -7,6 +7,7 @@ import { SqipExecutor } from './SqipExecutor';
 
 // primitive backend uses the sqip nodejs module (which uses the primitve binaries)
  export class PrimitiveBackend extends Backend {
+    public static SUPPORTED_FILE_TYPES = ['.png', '.jpg', '.jpeg'];
     private static NAME = 'primitive';
     private static SUPPORTED_COMMANDS = [SqipCommandModule.NAME];
 

@@ -1,38 +1,29 @@
-import { CommandExecutor } from '../index';
+import { CommandExecutor, AbstractCommandExecutor } from '../index';
 import { Logger } from '../../util/Logger';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as fx from 'mkdir-recursive';
 import * as sqip from 'sqip';
+import { PrimitiveBackend } from '.';
 
-export class SqipExecutor implements CommandExecutor {
-
-    tinifyService: any;
-    logger: Logger;
+export class SqipExecutor extends AbstractCommandExecutor {
 
     args: any;
 
     constructor (logger: Logger) {
-        this.logger = logger;
+        super(logger, PrimitiveBackend.SUPPORTED_FILE_TYPES);
     }
 
     init(args: any) {
         this.args = args;
-        return this;
-    }
-
-    getTargetFileName(outdir: string, file: path.ParsedPath, suffix: string): string {
-        return path.join(outdir, path.format(Object.assign({}, file, {
-            name: file.name + suffix,
-            ext: '.svg',
-            base: undefined
-        })));
+        return super.init(args);
     }
 
     process(file: string, outdir: string) {
         // setup target directory
-        const target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-sqip');
-        fx.mkdirSync(path.dirname(target));
+        const target = this.setupTarget(file, {
+            suffix: '-sqip'
+        });
 
         // create sqip image
         const result =  sqip({
@@ -45,24 +36,12 @@ export class SqipExecutor implements CommandExecutor {
         // write sqip to svg file
         fs.writeFileSync(target, result.final_svg);
 
-        this.logger.force().println([
-            '\n', file, ' -> ', target
-        ]);
-
-        const sourceSize = fs.statSync(file).size;
-        const targetSize = fs.statSync(target).size;
-        const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
-
+        this.printSuccess(file, target);
+        this.printReducedFileSize(file, target);
         this.logger.println([
-            '\t', reducedSize, '% reduced size. ',
-            '[size in Byte = ', (targetSize + ''), '; dimension = ',
-            result.img_dimensions.width, 'px x ',result.img_dimensions.height, 'px] ',
-            '\n\t SVG as Base64: ', result.svg_base64encoded
+            '\n\t SVG as Base64: ',
+            '[', result.img_dimensions.width, 'px x ',result.img_dimensions.height, 'px] ',
+            result.svg_base64encoded
         ]);
     }
-
-    supportFile(file: string) {
-        // Check for file extension if the given file is supported.
-        return ['.png', '.jpg', '.jpeg'].indexOf(path.parse(file).ext) !== -1;
-    }
- }
+}
