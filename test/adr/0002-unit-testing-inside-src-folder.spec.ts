@@ -42,7 +42,7 @@ describe('Unit Testing', () => {
       let testFilesFound = testFiles.filter((t) => {
         const parsedT = path.parse(path.normalize(t));
         return parsedT.name.startsWith(src.name)
-          && src.dir == parsedT.dir;
+          && src.dir === parsedT.dir;
       });
 
       if(testFilesFound.length === 0) {
@@ -51,7 +51,7 @@ describe('Unit Testing', () => {
           const parsedT = path.parse(path.normalize(t));
           const filename = parsedT.name.substring(0, parsedT.name.indexOf('.'));
           return src.dir.endsWith(filename)
-            && src.dir == parsedT.dir;
+            && src.dir === parsedT.dir;
         });
 
         expect(testFilesFound.length).to.be.at.least(1, 

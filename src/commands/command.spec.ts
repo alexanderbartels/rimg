@@ -1,4 +1,15 @@
 
-describe('command', () => {
-    // TODO.
+import 'mocha';  
+import { expect } from 'chai';  
+
+import {AbstractCommand} from './command';
+
+describe('Command', () => {
+    it('should have tests', () => {
+        // TODO provide some tests
+        
+        /* tslint:disable:no-unused-expression */
+        expect(AbstractCommand).to.be.not.undefined;
+        /* tslint:enable:no-unused-expression */
+    });
 });
