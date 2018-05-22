@@ -11,7 +11,7 @@ describe('Record Architecture Decisions', () => {
 
     adrs.forEach((file) => {
       const testFilename = file.replace('.md', '.spec.ts');
-      const testFile = `./test/adr/${testFilename}`
+      const testFile = `./test/adr/${testFilename}`;
 
       expect(fs.existsSync(testFile)).to.be.equals(true, 
         `Missing test ${testFile} for its ADR ${file}`);

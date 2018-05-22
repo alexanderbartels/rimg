@@ -25,6 +25,6 @@ import { Logger } from "../../util/Logger";
   getOptions():  { [flag: string]: Options } {
     return {
       
-    }
+    };
   }
 }
