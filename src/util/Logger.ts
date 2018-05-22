@@ -4,46 +4,46 @@ export interface LoggerArgs {
 }
 
 export class Logger {
-    quiet: boolean;
+    public quiet: boolean;
 
-    // logger to ignore the quiet argument. 
-    forceLogger: Logger;
+    // logger to ignore the quiet argument.
+    public forceLogger: Logger;
 
-    stdout: Function;
-    stderr: Function;
+    public stdout: Function;
+    public stderr: Function;
 
     constructor(args: LoggerArgs) {
         this.quiet = args.quiet;
-        
+
         this.forceLogger = this;
-        if (this.quiet) this.forceLogger = new Logger({quiet: false});
+        if (this.quiet) { this.forceLogger = new Logger({quiet: false}); }
 
         this.stdout = console.log;
         this.stderr = console.error;
     }
 
-    force () :Logger {
+    public force () : Logger {
        // force Logger only needed if quiet is true
        // so we have a nice api. e.g. this.logger.force().println();
        return this.quiet ?
             this.forceLogger : this;
     }
 
-    println (msg: string[]) {
-        if (this.quiet) return;
+    public println (msg: string[]) {
+        if (this.quiet) { return; }
         this._stdout(msg);
     }
 
-    eprintln(msg: string[]) {
-        if (this.quiet) return;
+    public eprintln(msg: string[]) {
+        if (this.quiet) { return; }
         this._stderr(msg);
     }
 
-    _stdout(msg: string[]) {
+    public _stdout(msg: string[]) {
         this.stdout.apply(console, [...msg]);
     }
 
-    _stderr(msg: string[]) {
+    public _stderr(msg: string[]) {
         this.stderr.apply(console, ['Error: ', ...msg]);
     }
 }

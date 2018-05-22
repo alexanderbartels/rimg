@@ -1,6 +1,6 @@
 
-import 'mocha';  
-import { expect } from 'chai';  
+import { expect } from 'chai';
+import 'mocha';
 
 import {TinifyBackend} from '.';
 import {TinifyCompressionExecutor} from './TinifyCompressionExecutor';
@@ -10,7 +10,7 @@ import {TinifyThumbExecutor} from './TinifyThumbExecutor';
 describe('tinify backend', () => {
     it('should have tests', () => {
         // TODO provide some tests
-        
+
         /* tslint:disable:no-unused-expression */
         expect(TinifyBackend).to.be.not.undefined;
         expect(TinifyCompressionExecutor).to.be.not.undefined;

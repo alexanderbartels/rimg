@@ -1,19 +1,19 @@
-import { CommandExecutor, AbstractCommandExecutor } from '../index';
 import { Logger } from '../../util/Logger';
+import { AbstractCommandExecutor, CommandExecutor } from '../index';
 
-import * as tinify from 'tinify';
 import * as sizeOf from 'image-size';
+import * as tinify from 'tinify';
 import { TinifyBackend } from '.';
 
 export class TinifySrcsetExecutor extends AbstractCommandExecutor {
 
-   tinifyService: any;
+   public tinifyService: any;
 
     constructor (logger: Logger) {
         super(logger, TinifyBackend.SUPPORTED_FILE_TYPES);
     }
 
-    init (args: any) {
+    public init (args: any) {
         super.init(args);
 
         this.tinifyService = tinify;
@@ -25,19 +25,19 @@ export class TinifySrcsetExecutor extends AbstractCommandExecutor {
         return this;
     }
 
-    processReady(err: any, file :string, targetX1 :string, targetX2 :string) {
+    public processReady(err: any, file : string, targetX1 : string, targetX2 : string) {
         if (err) {
             this.logger.eprintln(['Unable to compress file: ', file, err]);
         } else {
             this.printSuccess(file, targetX1);
             this.printReducedFileSize(file, targetX1);
-        
+
             this.printSuccess(file, targetX2);
             this.printReducedFileSize(file, targetX2);
         }
     }
 
-   toFile(tinifySource: any, targetFile: string): Promise<any> {
+   public toFile(tinifySource: any, targetFile: string): Promise<any> {
        return new Promise((resolve, reject) => {
            tinifySource.toFile(targetFile, (err: any) => {
                if (err) {
@@ -49,8 +49,8 @@ export class TinifySrcsetExecutor extends AbstractCommandExecutor {
        });
    }
 
-   process(file: string, outdir: string) {
-       // TODO target is with -1x appended. 
+   public process(file: string, outdir: string) {
+       // TODO target is with -1x appended.
        const targetX1 = this.setupTarget(file, { suffix: '-@1x' });
        const targetX2 = this.setupTarget(file, { suffix: '-@2x' });
 
@@ -62,7 +62,7 @@ export class TinifySrcsetExecutor extends AbstractCommandExecutor {
        const source = this.tinifyService.fromFile(file);
        const resized = source.resize({
            method: 'scale',
-           width: targetWidth,
+           width: targetWidth
        });
 
        Promise.all([
@@ -70,7 +70,7 @@ export class TinifySrcsetExecutor extends AbstractCommandExecutor {
            this.toFile(source, targetX2)
        ]).then(() => {
            this.processReady(null, file, targetX1, targetX2);
-       }, (err: any) => {
+       },      (err: any) => {
            this.processReady(err, file, targetX1, targetX2);
        });
    }

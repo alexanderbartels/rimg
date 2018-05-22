@@ -1,12 +1,11 @@
-import { Backend } from '../index';
-import { SqipCommandModule } from '../../commands/sqip';
 import { Options } from 'yargs';
+import { SqipCommandModule } from '../../commands/sqip';
 import { Logger } from '../../util/Logger';
+import { Backend } from '../index';
 import { SqipExecutor } from './SqipExecutor';
 
-
 // primitive backend uses the sqip nodejs module (which uses the primitve binaries)
- export class PrimitiveBackend extends Backend {
+export class PrimitiveBackend extends Backend {
     public static SUPPORTED_FILE_TYPES = ['.png', '.jpg', '.jpeg'];
     private static NAME = 'primitive';
     private static SUPPORTED_COMMANDS = [SqipCommandModule.NAME];
@@ -17,15 +16,15 @@ import { SqipExecutor } from './SqipExecutor';
         this.registerCommandExecutor(SqipCommandModule.NAME, new SqipExecutor(logger));
     }
 
-    getName() {
+    public getName() {
         return PrimitiveBackend.NAME;
     }
 
-    getSupportedCommands() {
+    public getSupportedCommands() {
         return PrimitiveBackend.SUPPORTED_COMMANDS;
     }
 
-    getOptions():  { [flag: string]: Options } {
+    public getOptions():  { [flag: string]: Options } {
         return {
             'primitive-count': {
                describe: 'Customize the number of primitive SVG shapes (default=8) to influence bytesize or level of detail',
@@ -45,6 +44,3 @@ import { SqipExecutor } from './SqipExecutor';
         };
     }
  }
-
-
-

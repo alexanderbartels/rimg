@@ -1,19 +1,19 @@
-import { AbstractCommandExecutor } from '../index';
 import { Logger } from '../../util/Logger';
+import { AbstractCommandExecutor } from '../index';
 
 import * as tinify from 'tinify';
 import { TinifyBackend } from '.';
 
 export class TinifyThumbExecutor extends AbstractCommandExecutor {
 
-    tinifyService: any;
-    args: any;
+    public tinifyService: any;
+    public args: any;
 
     constructor (logger: Logger) {
         super(logger, TinifyBackend.SUPPORTED_FILE_TYPES);
     }
 
-    init(args: any) {
+    public init(args: any) {
         super.init(args);
 
         this.args = args;
@@ -27,7 +27,7 @@ export class TinifyThumbExecutor extends AbstractCommandExecutor {
         return this;
     }
 
-    process(file: string, outdir: string) {
+    public process(file: string, outdir: string) {
         // setup target directory
         const target = this.setupTarget(file, {
             suffix: '-thumb'
@@ -41,7 +41,7 @@ export class TinifyThumbExecutor extends AbstractCommandExecutor {
             height: this.args.height
         });
 
-        thumbed.toFile(target, (err :any) => {
+        thumbed.toFile(target, (err : any) => {
             if (err) {
                 this.logger.eprintln(['Unable to create thumbnail for file: ', file, err]);
             } else {

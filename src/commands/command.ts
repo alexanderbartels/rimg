@@ -5,52 +5,52 @@ import {Argv, Options} from 'yargs';
 import * as globby from 'globby';
 
 // import parameter
-import {flag as OutputFlag, option as OutputOption} from './../parameter/output';
-import {flag as FlattenFlag, option as FlattenOption} from './../parameter/flatten';
 import {flag as BackendFlag, generateOption as generateBackendOption} from './../parameter/backend';
+import {flag as FlattenFlag, option as FlattenOption} from './../parameter/flatten';
+import {flag as OutputFlag, option as OutputOption} from './../parameter/output';
 
+import { Backend, Backends, CommandExecutor } from './../backends/index';
 import { Logger } from './../util/Logger';
-import { Backends, Backend, CommandExecutor } from './../backends/index';
 
 export interface Command {
     name: string;
 }
 
 export abstract class AbstractCommand implements Command {
-    // command name 
-    name: string;
+    // command name
+    public name: string;
 
-    logger: Logger;
-    outdir: string;
-    files: string[];
+    public logger: Logger;
+    public outdir: string;
+    public files: string[];
 
-    executors: CommandExecutor[];
+    public executors: CommandExecutor[];
 
     constructor(name: string, logger: Logger, backends: Backends, args: any) {
         this.name = name;
         this.logger = logger;
 
-        // get the args we need 
+        // get the args we need
         this.outdir = args.output;
         this.files = globby.sync(args.files);
 
         this.executors = backends.getBackendsByNames(args[BackendFlag])
             .map((backend) => backend.createCommandExecutor(this.name, logger, args));
-    }  
+    }
 
     // execute the command
-    process(): void {
+    public process(): void {
         // process all files
         this.files.forEach((file) => {
             this.processFile(file);
         });
     }
 
-    processFile(file: string): void {
+    public processFile(file: string): void {
         // find the first backend that supports the current file to process
         const executor = this.executors.find((e) => e.supportFile(file));
 
-        if(executor) {
+        if (executor) {
             executor.process(file, this.outdir);
         } else {
             this.logger.eprintln([' No backend from the configured ones are able to process this file: ', file]);
@@ -58,12 +58,11 @@ export abstract class AbstractCommand implements Command {
     }
 }
 
-
 export abstract class AbstractCommandModule {
     // command name
-    name: string;
-    backends: Backends;
-    logger: Logger;
+    public name: string;
+    public backends: Backends;
+    public logger: Logger;
 
     constructor(name: string, logger: Logger, backends: Backends) {
         this.name = name;
@@ -72,15 +71,15 @@ export abstract class AbstractCommandModule {
     }
 
     // return the clid description for the module.
-    abstract moduleDescription(): string;
-    
+    public abstract moduleDescription(): string;
+
     // returns a new command instance
-    abstract createCommand(args: any): AbstractCommand;
+    public abstract createCommand(args: any): AbstractCommand;
 
     // custom command options can be appended to the argument.
-    abstract builder(argv :Argv): Argv;
+    public abstract builder(argv : Argv): Argv;
 
-    create() :yargs.CommandModule  {
+    public create() : yargs.CommandModule  {
         return {
             command: `${this.name} <files>`,
             aliases: this.name,
@@ -88,9 +87,9 @@ export abstract class AbstractCommandModule {
             handler: (args: any) => {
                 this.createCommand(args).process();
             },
-            builder: (argv: Argv) :Argv => {
+            builder: (argv: Argv) : Argv => {
                 // which backends are available?
-                const supportedBackends :string[] = this.backends.getSupportedBackends(this.name);
+                const supportedBackends : string[] = this.backends.getSupportedBackends(this.name);
 
                 return this.builder(yargs.positional('files', {
                     describe: 'File pattern (globby notation) for images to create the thumbnails from.',

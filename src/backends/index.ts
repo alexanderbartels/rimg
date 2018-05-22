@@ -1,9 +1,9 @@
 import { Options } from 'yargs';
 import { Logger } from '../util/Logger';
 
-import * as path from 'path';
 import * as fs from 'fs';
 import * as fx from 'mkdir-recursive';
+import * as path from 'path';
 
 export interface CommandExecutor {
     init(args: any): this;
@@ -15,69 +15,67 @@ export interface CommandExecutor {
 }
 
 export interface TargetFileOptions {
-    outdir?: string,
-    suffix: string,
-    flatten?: boolean
+    outdir?: string;
+    suffix: string;
+    flatten?: boolean;
 }
 
 export abstract class AbstractCommandExecutor implements CommandExecutor {
-    
-    logger: Logger;
-    supportedFileTypes: string[];
-    flatten: boolean = false;
-    outdir?: string;
+
+    public logger: Logger;
+    public supportedFileTypes: string[];
+    public flatten: boolean = false;
+    public outdir?: string;
 
     constructor(logger: Logger, supportedFileTypes: string[]) {
         this.logger = logger;
         this.supportedFileTypes = supportedFileTypes;
     }
 
-    init(args: any) {
-        this.outdir = args['output'];
-        this.flatten = args['flatten'] || false;
+    public init(args: any) {
+        this.outdir = args.output;
+        this.flatten = args.flatten || false;
         return this;
     }
 
-    abstract process(file: string, outdir: string): void;
+    public abstract process(file: string, outdir: string): void;
 
-    supportFile(file: string) {
+    public supportFile(file: string) {
         return this.supportedFileTypes.indexOf(path.parse(file).ext) !== -1;
     }
 
     /**
-     * get the target file name 
+     * get the target file name
      */
-    getTargetFileName(file: path.ParsedPath, opts: TargetFileOptions): string {
-        return path.join(opts.outdir || '', path.format(Object.assign({}, file, {
+    public getTargetFileName(file: path.ParsedPath, opts: TargetFileOptions): string {
+        return path.join(opts.outdir || '', path.format({...file, 
             name: file.name + opts.suffix,
             dir: opts.flatten ? '' : file.dir,
-            base: undefined
-        })));
+            base: undefined}));
     }
 
     /**
      * @return #getTargetFileName()
      */
-    setupTarget(file: string, opts: TargetFileOptions): string {
+    public setupTarget(file: string, opts: TargetFileOptions): string {
         const targetFileName = this.getTargetFileName(
-            path.parse(path.normalize(file)), 
-            Object.assign({
+            path.parse(path.normalize(file)),
+            {
                 outdir: this.outdir,
-                flatten: this.flatten
-            }, opts));
+                flatten: this.flatten,            ...opts});
 
         // create needed directories
         fx.mkdirSync(path.dirname(targetFileName));
         return targetFileName;
     }
 
-    printSuccess(inputFile: string, targetFile: string) {
+    public printSuccess(inputFile: string, targetFile: string) {
         this.logger.force().println([
             '\n', inputFile, ' -> ', targetFile
         ]);
     }
 
-    printReducedFileSize(inputFile: string, targetFile: string) {
+    public printReducedFileSize(inputFile: string, targetFile: string) {
         const sourceSize = fs.statSync(inputFile).size;
         const targetSize = fs.statSync(targetFile).size;
         const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
@@ -90,52 +88,51 @@ export abstract class AbstractCommandExecutor implements CommandExecutor {
 
 export abstract class Backend {
 
-    supportedCommands: string[];
-    commandExecutors: { [key :string]: CommandExecutor};
+    public supportedCommands: string[];
+    public commandExecutors: { [key : string]: CommandExecutor};
 
     constructor() {
         this.supportedCommands = [];
         this.commandExecutors = {};
     }
 
-    registerCommandExecutor(command :string, executor :CommandExecutor): void {
+    public registerCommandExecutor(command : string, executor : CommandExecutor): void {
         // if an executor is provieded, the command will be supported
-        if (this.supportedCommands.indexOf(command) === -1) this.supportedCommands.push(command);
+        if (this.supportedCommands.indexOf(command) === -1) { this.supportedCommands.push(command); }
         this.commandExecutors[command] = executor;
     }
 
     // backend name
-    abstract getName(): string;
+    public abstract getName(): string;
 
     // commands which can be processed by the backend
-    getSupportedCommands(): string[] {
+    public getSupportedCommands(): string[] {
         return this.supportedCommands;
     }
 
     // A Backend must provide its possible options
-    abstract getOptions(): {[flag :string] :Options};
+    public abstract getOptions(): {[flag : string] : Options};
 
     // checks if a backend supports a given command
-    hasSupport(command: string) {
+    public hasSupport(command: string) {
         return this.getSupportedCommands().indexOf(command) !== -1;
     }
 
     // the executor that does the processing
-    createCommandExecutor(command :string, logger: Logger, args: any): CommandExecutor {
+    public createCommandExecutor(command : string, logger: Logger, args: any): CommandExecutor {
         return this.commandExecutors[command].init(args);
     }
 }
 
 export class Backends {
 
-    registry: {[key :string]: Backend};
-
+    public registry: {[key : string]: Backend};
 
     constructor() {
         this.registry = {};
     }
 
-    registerBackend(backend: Backend) {
+    public registerBackend(backend: Backend) {
         if (this.registry[backend.getName()]) {
             throw new Error(`Backend with name ${backend.getName()} is already registered.`);
         }
@@ -144,27 +141,27 @@ export class Backends {
     }
 
     /**
-     * 
+     *
      * @param command
-     * @ return array with backend names, that support the given command 
+     * @ return array with backend names, that support the given command
      */
-    getSupportedBackends(command: string) :string[] {
+    public getSupportedBackends(command: string) : string[] {
         return Object.keys(this.registry).filter((backend) => {
             return this.registry[backend].hasSupport(command);
         });
     }
 
-    getBackendsByNames(names: string[]) :Backend[] {
+    public getBackendsByNames(names: string[]) : Backend[] {
         return Object.keys(this.registry)
             .filter((k) => names.indexOf(k) !== -1)
             .map((k) => this.registry[k]);
     }
 
-    getBackendByName(name: string) :Backend | undefined {
+    public getBackendByName(name: string) : Backend | undefined {
         return this.registry[name];
     }
 
-    generateOptions(backends: string[]) :{[flag :string] :Options} {
+    public generateOptions(backends: string[]) : {[flag : string] : Options} {
         let opts = {};
 
         backends.forEach((backendName) => {

@@ -1,9 +1,8 @@
-import 'mocha';  
-import { expect } from 'chai';  
-import * as sinon from 'sinon';  
+import { expect } from 'chai';
+import 'mocha';
+import * as sinon from 'sinon';
 
 import {Logger} from './Logger';
-
 
 describe('Loud Logger', () => {
 

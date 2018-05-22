@@ -1,8 +1,8 @@
+import { Options } from 'yargs';
 import { Backend } from '..';
 import { CompressCommandModule } from '../../commands/compress';
-import { Options } from 'yargs';
-import { SvgoCompressionExecutor } from './SvgoCompressionExecutor';
 import { Logger } from '../../util/Logger';
+import { SvgoCompressionExecutor } from './SvgoCompressionExecutor';
 
 export class SvgoBackend extends Backend {
   public static SUPPORTED_FILE_TYPES = ['.svg'];
@@ -14,17 +14,17 @@ export class SvgoBackend extends Backend {
     this.registerCommandExecutor(CompressCommandModule.NAME, new SvgoCompressionExecutor(logger));
   }
 
-  getName() {
+  public getName() {
     return SvgoBackend.NAME;
   }
 
-  getSupportedCommands() {
+  public getSupportedCommands() {
         return SvgoBackend.SUPPORTED_COMMANDS;
   }
 
-  getOptions(): { [flag: string]: Options } {
+  public getOptions(): { [flag: string]: Options } {
     return {
-      
+
     };
   }
 }

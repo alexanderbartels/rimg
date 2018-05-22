@@ -1,9 +1,8 @@
-import 'mocha';  
-import { expect } from 'chai';  
-import * as sinon from 'sinon';  
+import { expect } from 'chai';
+import 'mocha';
+import * as sinon from 'sinon';
 
 import {Logger} from './Logger';
-
 
 describe('Quiet Logger', () => {
 
@@ -35,7 +34,7 @@ describe('Quiet Logger', () => {
 
     it('should have a different configured force logger to print messages in quiet mode', () => {
         /**
-         * Force logger can not be quiet, so they can not be equals 
+         * Force logger can not be quiet, so they can not be equals
          */
         expect(logger.forceLogger).not.to.be.equals(logger);
 
@@ -50,7 +49,6 @@ describe('Quiet Logger', () => {
         sinon.assert.notCalled(logger.forceLogger.println as sinon.SinonStub);
         sinon.assert.calledOnce(logger.forceLogger.eprintln as sinon.SinonStub);
     });
-
 
     it('should print forced messages', () => {
         logger.force().println(['Hello World']);

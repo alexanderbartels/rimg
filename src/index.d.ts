@@ -1,5 +1,4 @@
 
-
 declare module 'tinify';
 
 declare module 'mkdir-recursive';
