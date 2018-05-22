@@ -50,7 +50,6 @@
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.1.0",
     "docsify-cli": "^4.2.1",
-    "gts": "^0.5.4",
     "mocha": "^5.1.1",
     "nyc": "^11.8.0",
     "pkg": "^4.3.1",
@@ -58,6 +57,8 @@
     "sinon": "^5.0.7",
     "source-map-support": "^0.5.6",
     "ts-node": "^6.0.3",
+    "tslint": "^5.10.0",
+    "tslint-microsoft-contrib": "^5.0.3",
     "typescript": "^2.8.3"
   },
   "dependencies": {
