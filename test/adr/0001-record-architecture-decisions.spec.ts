@@ -1,5 +1,5 @@
-import 'mocha';  
-import { expect } from 'chai';  
+import { expect } from 'chai';
+import 'mocha';
 
 import * as fs from 'fs';
 
@@ -13,8 +13,8 @@ describe('Record Architecture Decisions', () => {
       const testFilename = file.replace('.md', '.spec.ts');
       const testFile = `./test/adr/${testFilename}`;
 
-      expect(fs.existsSync(testFile)).to.be.equals(true, 
-        `Missing test ${testFile} for its ADR ${file}`);
+      expect(fs.existsSync(testFile)).to.be.equals(true,
+                                                   `Missing test ${testFile} for its ADR ${file}`);
     });
   });
 
@@ -24,8 +24,8 @@ describe('Record Architecture Decisions', () => {
     const sidebar = fs.readFileSync('./docs/_sidebar.md');
 
     adrs.forEach((file) => {
-      expect(sidebar.indexOf(`](architecture/decisions/${file})`) !== -1).to.be.equals(true, 
-        `Missing link to ADR ${file} from our documentation website. Please inlcude a link inside the docs/_sidebar.md file.`);
+      expect(sidebar.indexOf(`](architecture/decisions/${file})`) !== -1).to.be.equals(true,
+                                                                                       `Missing link to ADR ${file} from our documentation website. Please inlcude a link inside the docs/_sidebar.md file.`);
     });
   });
 });

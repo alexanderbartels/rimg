@@ -48,7 +48,7 @@ export abstract class AbstractCommandExecutor implements CommandExecutor {
      * get the target file name
      */
     public getTargetFileName(file: path.ParsedPath, opts: TargetFileOptions): string {
-        return path.join(opts.outdir || '', path.format({...file, 
+        return path.join(opts.outdir || '', path.format({...file,
             name: file.name + opts.suffix,
             dir: opts.flatten ? '' : file.dir,
             base: undefined}));
