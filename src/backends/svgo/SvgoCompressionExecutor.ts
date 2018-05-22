@@ -25,7 +25,7 @@ export class SvgoCompressionExecutor extends AbstractCommandExecutor {
       // compress file
       const fileData = fs.readFileSync(file);
       svgo.optimize(fileData.toString(), {path: file})
-        .then((result) => {
+        .then((result :any) => {
           // write minified svg back to file
           fs.writeFileSync(target, result.data);
 
