@@ -1,4 +1,4 @@
-![logo](_media/logo.svg)
+![logo](_media/logo.min.svg)
 
 > A command line tool to create optimized images for the web.
 

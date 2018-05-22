@@ -25,7 +25,7 @@ $ mkdir src/backends/svgo
 
 Edit your newly created index.ts to implement the Backend:
 
-```ts
+```js
 import { Backend } from "..";
 import { CompressCommandModule } from "../../commands/compress";
 
@@ -66,7 +66,7 @@ export class SvgoBackend extends Backend {
 
 Edit SvgoCompressionExecutor:
 
-```ts
+```js
 import { CommandExecutor } from '../index';
 import { Logger } from '../../util/Logger';
 import * as path from 'path';
@@ -103,7 +103,7 @@ export class SvgoCompressionExecutor implements CommandExecutor {
 
 After we have implemented the executor, it must be registered at aour backend, so it nows that there is is a `CommandExecutor` for the compression command. Edit your backends index.ts:
 
-```ts
+```js
 // ...
 
 export class SvgoBackend extends Backend {
@@ -124,7 +124,7 @@ export class SvgoBackend extends Backend {
 
 To use the new backend, with its new executors, we need to register the backend itself. This will be done in the `src/rimg.ts` file:
 
-```ts
+```js
 // Backends definieren
 const backends = new Backends();
 backends.registerBackend(new TinifyBackend(logger));
