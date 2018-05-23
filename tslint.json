@@ -1,0 +1,21 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-microsoft-contrib"],
+  "jsRules": {},
+  "rules": {
+    "missing-jsdoc": false,
+    "no-import-side-effect": [true, { "ignore-module": "(\\.spec\\.ts)$" }],
+    "no-implicit-dependencies": [true, "dev"],
+    "interface-name": [true, "never-prefix"],
+    "no-relative-imports": false,
+    "typedef": [
+      true,
+      "call-signature",
+      "parameter",
+      "member-variable-declaration"
+    ],
+    "prefer-type-cast": false,
+    "no-angle-bracket-type-assertion": true
+  },
+  "rulesDirectory": []
+}

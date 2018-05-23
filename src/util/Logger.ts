@@ -1,49 +1,53 @@
-
 export interface LoggerArgs {
-    quiet: boolean;
+  quiet: boolean;
 }
 
 export class Logger {
-    quiet: boolean;
+  public quiet: boolean;
 
-    // logger to ignore the quiet argument. 
-    forceLogger: Logger;
+  // logger to ignore the quiet argument.
+  public forceLogger: Logger;
 
-    stdout: Function;
-    stderr: Function;
+  public stdout: Function;
+  public stderr: Function;
 
-    constructor(args: LoggerArgs) {
-        this.quiet = args.quiet;
-        
-        this.forceLogger = this;
-        if (this.quiet) this.forceLogger = new Logger({quiet: false});
+  constructor(args: LoggerArgs) {
+    this.quiet = args.quiet;
 
-        this.stdout = console.log;
-        this.stderr = console.error;
+    this.forceLogger = this;
+    if (this.quiet) {
+      this.forceLogger = new Logger({ quiet: false });
     }
 
-    force () :Logger {
-       // force Logger only needed if quiet is true
-       // so we have a nice api. e.g. this.logger.force().println();
-       return this.quiet ?
-            this.forceLogger : this;
-    }
+    this.stdout = console.log;
+    this.stderr = console.error;
+  }
 
-    println (msg: string[]) {
-        if (this.quiet) return;
-        this._stdout(msg);
-    }
+  public force(): Logger {
+    // force Logger only needed if quiet is true
+    // so we have a nice api. e.g. this.logger.force().println();
+    return this.quiet ? this.forceLogger : this;
+  }
 
-    eprintln(msg: string[]) {
-        if (this.quiet) return;
-        this._stderr(msg);
+  public println(msg: string[]): void {
+    if (this.quiet) {
+      return;
     }
+    this._stdout(msg);
+  }
 
-    _stdout(msg: string[]) {
-        this.stdout.apply(console, [...msg]);
+  public eprintln(msg: string[]): void {
+    if (this.quiet) {
+      return;
     }
+    this._stderr(msg);
+  }
 
-    _stderr(msg: string[]) {
-        this.stderr.apply(console, ["Error: ", ...msg]);
-    }
+  private _stdout(msg: string[]): void {
+    this.stdout.apply(console, [...msg]);
+  }
+
+  private _stderr(msg: string[]): void {
+    this.stderr.apply(console, ['Error: ', ...msg]);
+  }
 }

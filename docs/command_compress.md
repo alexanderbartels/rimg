@@ -37,12 +37,13 @@ $ rimg compress pictures/*.png
 ```
 
 * Option type: `array` of strings see the list of [available Backends](#available-backends) for backends that can be used to compress images.
-* Default: `["tinify"]`
+* Default: `["tinify", "svgo"]`
 * Required: `optional`
 
 ## Available Backends
 
 * [tinify](#tinify) - Uses the tinify (tinyPNG / tinyJPG) API to compress the images.
+* [svgo](#svgo) - Uses the svgo library to compress svg images
 * ... more to come. Create an Issue or PullRequest if you want to include a new Backend.
 
 ### Tinify
@@ -68,3 +69,9 @@ $ rimg compress pictures/*.png
 * Option type: `string`
 * Default: `none`
 * Required: `required`
+
+### Svgo
+
+Uses the svgo library to compress svg images.
+
+!> The SVGO Backend has no custom options that can be specified. The Module uses the svgo default configuration. That configuration should provide the best results. 

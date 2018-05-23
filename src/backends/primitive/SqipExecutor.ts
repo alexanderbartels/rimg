@@ -1,68 +1,51 @@
-import { CommandExecutor } from '../index';
-import { Logger } from '../../util/Logger';
-import * as path from 'path';
 import * as fs from 'fs';
 import * as fx from 'mkdir-recursive';
+import * as path from 'path';
 import * as sqip from 'sqip';
+import { PrimitiveBackend } from '.';
+import { Logger } from '../../util/Logger';
+import { AbstractCommandExecutor, CommandExecutor } from '../index';
 
-export class SqipExecutor implements CommandExecutor {
+export class SqipExecutor extends AbstractCommandExecutor {
+  public args: any;
 
-    tinifyService: any;
-    logger: Logger;
+  constructor(logger: Logger) {
+    super(logger, PrimitiveBackend.SUPPORTED_FILE_TYPES);
+  }
 
-    args: any;
+  public init(args: any): this {
+    this.args = args;
 
-    constructor (logger: Logger) {
-        this.logger = logger;
-    }
+    return super.init(args);
+  }
 
-    init(args: any) {
-        this.args = args;
-        return this;
-    }
+  public process(file: string, outdir: string): void {
+    // setup target directory
+    const target = this.setupTarget(file, {
+      suffix: '-sqip'
+    });
 
-    getTargetFileName(outdir: string, file: path.ParsedPath, suffix: string): string {
-        return path.join(outdir, path.format(Object.assign({}, file, {
-            name: file.name + suffix,
-            ext: '.svg',
-            base: undefined
-        })));
-    }
+    // create sqip image
+    const result = sqip({
+      filename: file,
+      numberOfPrimitives: this.args['primitive-count'],
+      mode: this.args['primitive-mode'],
+      blur: this.args['primitive-blur']
+    });
 
-    process(file: string, outdir: string) {
-        // setup target directory
-        const target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-sqip');
-        fx.mkdirSync(path.dirname(target));
+    // write sqip to svg file
+    fs.writeFileSync(target, result.final_svg);
 
-        // create sqip image
-        const result =  sqip({
-            filename: file,
-            numberOfPrimitives: this.args['primitive-count'],
-            mode: this.args['primitive-mode'],
-            blur: this.args['primitive-blur']
-        });
-
-        // write sqip to svg file
-        fs.writeFileSync(target, result.final_svg);
-
-        this.logger.force().println([
-            '\n', file, ' -> ', target
-        ]);
-
-        const sourceSize = fs.statSync(file).size;
-        const targetSize = fs.statSync(target).size;
-        const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
-
-        this.logger.println([
-            '\t', reducedSize, '% reduced size. ',
-            '[size in Byte = ', (targetSize + ''), '; dimension = ',
-            result.img_dimensions.width, 'px x ',result.img_dimensions.height, 'px] ',
-            '\n\t SVG as Base64: ', result.svg_base64encoded
-        ]);
-    }
-
-    supportFile(file: string) {
-        // Check for file extension if the given file is supported.
-        return ['.png', '.jpg', '.jpeg'].indexOf(path.parse(file).ext) !== -1;
-    }
- }
+    this.printSuccess(file, target);
+    this.printReducedFileSize(file, target);
+    this.logger.println([
+      '\n\t SVG as Base64: ',
+      '[',
+      result.img_dimensions.width,
+      'px x ',
+      result.img_dimensions.height,
+      'px] ',
+      result.svg_base64encoded
+    ]);
+  }
+}

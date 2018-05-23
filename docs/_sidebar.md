@@ -19,4 +19,6 @@
   * [Add a new Command](sw-contrib-command.md)
   * [Software Design](sw-design.md)
 
-
+* Architecture
+  * [Architecture Decisions](architecture/decisions/0001-record-architecture-decisions.md)
+  * [Unit Testing](architecture/decisions/0002-unit-testing-inside-src-folder.md)

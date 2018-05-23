@@ -1,0 +1,3 @@
+describe('rimg cli', () => {
+  // TODO.
+});

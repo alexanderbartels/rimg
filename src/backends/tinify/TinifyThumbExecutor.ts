@@ -1,74 +1,56 @@
-import { CommandExecutor } from '../index';
 import { Logger } from '../../util/Logger';
+import { AbstractCommandExecutor } from '../index';
 
 import * as tinify from 'tinify';
-import * as fs from 'fs';
-import * as fx from 'mkdir-recursive';
-import * as path from 'path';
+import { TinifyBackend } from '.';
 
-export class TinifyThumbExecutor implements CommandExecutor {
+export class TinifyThumbExecutor extends AbstractCommandExecutor {
+  public tinifyService: any;
+  public args: any;
 
-    tinifyService: any;
-    logger: Logger;
+  constructor(logger: Logger) {
+    super(logger, TinifyBackend.SUPPORTED_FILE_TYPES);
+  }
 
-    args: any;
+  public init(args: any): this {
+    super.init(args);
 
-    constructor (logger: Logger) {
-        this.logger = logger;
+    this.args = args;
+    this.tinifyService = tinify;
+
+    this.tinifyService.key = args['tinify-api-key'];
+    if (args['tinify-proxy']) {
+      this.tinifyService.proxy = args['tinify-proxy'];
     }
 
-    init(args: any) {
-        this.args = args;
-        this.tinifyService = tinify;
+    return this;
+  }
 
-        this.tinifyService.key = args['tinify-api-key'];
-        if (args['tinify-proxy']) {
-            this.tinifyService.proxy = args['tinify-proxy'];
-        }
+  public process(file: string, outdir: string): void {
+    // setup target directory
+    const target = this.setupTarget(file, {
+      suffix: '-thumb'
+    });
 
-        return this;
-    }
+    // create thumbnail and compress file
+    const source = this.tinifyService.fromFile(file);
+    const thumbed = source.resize({
+      method: 'thumb',
+      width: this.args.width,
+      height: this.args.height
+    });
 
-    getTargetFileName(outdir: string, file: path.ParsedPath, suffix: string): string {
-        return path.join(outdir, path.format(Object.assign({}, file, {
-            name: file.name + suffix,
-            base: undefined
-        })));
-    }
-
-    process(file: string, outdir: string) {
-        // setup target directory
-        const target = this.getTargetFileName(outdir, path.parse(path.normalize(file)), '-thumb');
-        fx.mkdirSync(path.dirname(target));
-
-        // compress file
-        const source = this.tinifyService.fromFile(file);
-        const thumbed = source.resize({
-            method: "thumb",
-            width: this.args.width,
-            height: this.args.height
-        });
-        thumbed.toFile(target, (err :any) => {
-            if (err) {
-                this.logger.eprintln(['Unable to create thumbnail for file: ', file, err]);
-            } else {
-                this.logger.force().println([
-                        '\n', file, ' -> ', target
-                ]);
-
-                const sourceSize = fs.statSync(file).size;
-                const targetSize = fs.statSync(target).size;
-                const reducedSize = (100 - (targetSize * 100 / sourceSize)).toFixed(2);
-
-                this.logger.println([
-                    '\t', reducedSize, "% reduced size through thumbnail creation"
-                ]);
-            }
-        });
-    }
-
-    supportFile(file: string) {
-        // Check for file extension if the given file is supported.
-        return ['.png', '.jpg', '.jpeg'].indexOf(path.parse(file).ext) !== -1;
-    }
- }
+    thumbed.toFile(target, (err: any) => {
+      if (err) {
+        this.logger.eprintln([
+          'Unable to create thumbnail for file: ',
+          file,
+          err
+        ]);
+      } else {
+        this.printSuccess(file, target);
+        this.printReducedFileSize(file, target);
+      }
+    });
+  }
+}
