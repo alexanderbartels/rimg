@@ -1,37 +1,17 @@
-import * as yargs from "yargs";
-import { Argv, Options } from "yargs";
+import { Argv, Options } from 'yargs';
 
-import * as globby from "globby";
+import * as globby from 'globby';
 
-// import parameter
-import {
-  flag as BackendFlag,
-  generateOption as generateBackendOption
-} from "../../parameter/backend";
-import {
-  flag as HeightFlag,
-  option as HeightOption
-} from "../../parameter/height";
-import {
-  flag as OutputFlag,
-  option as OutputOption
-} from "../../parameter/output";
-import {
-  flag as WidthFlag,
-  option as WidthOption
-} from "../../parameter/width";
-
-import { Backend, Backends, CommandExecutor } from "../../backends/index";
-import { option } from "../../parameter/width";
-import { Logger } from "../../util/Logger";
-import { AbstractCommand, AbstractCommandModule } from "../command";
+import { Backend, Backends, CommandExecutor } from '../../backends/index';
+import { Logger } from '../../util/Logger';
+import { AbstractCommand, AbstractCommandModule } from '../command';
 
 export class SqipCommand extends AbstractCommand {
   constructor(name: string, logger: Logger, backends: Backends, args: any) {
     super(name, logger, backends, args);
   }
 
-  public process() {
+  public process(): void {
     // process all files
     this.files.forEach(file => {
       // find the first backend that supports the current file to process
@@ -41,7 +21,7 @@ export class SqipCommand extends AbstractCommand {
         executor.process(file, this.outdir);
       } else {
         this.logger.eprintln([
-          " No backend from the configured ones are able to process this file: ",
+          ' No backend from the configured ones are able to process this file: ',
           file
         ]);
       }
@@ -50,17 +30,17 @@ export class SqipCommand extends AbstractCommand {
 }
 
 export class SqipCommandModule extends AbstractCommandModule {
-  public static NAME = "sqip";
+  public static NAME: string = 'sqip';
 
   constructor(logger: Logger, backends: Backends) {
     super(SqipCommandModule.NAME, logger, backends);
   }
 
   public moduleDescription(): string {
-    return "Generates a svg placeholder image using the sqip method";
+    return 'Generates a svg placeholder image using the sqip method';
   }
 
-  public createCommand(args: any): AbstractCommand {
+  public createCommand(args: Argv): AbstractCommand {
     return new SqipCommand(
       SqipCommandModule.NAME,
       this.logger,
@@ -71,6 +51,5 @@ export class SqipCommandModule extends AbstractCommandModule {
 
   public builder(yargs: Argv): Argv {
     return yargs;
-    // TODO add custom sqip options.
   }
 }

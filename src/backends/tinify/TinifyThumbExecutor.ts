@@ -1,8 +1,8 @@
-import { Logger } from "../../util/Logger";
-import { AbstractCommandExecutor } from "../index";
+import { Logger } from '../../util/Logger';
+import { AbstractCommandExecutor } from '../index';
 
-import * as tinify from "tinify";
-import { TinifyBackend } from ".";
+import * as tinify from 'tinify';
+import { TinifyBackend } from '.';
 
 export class TinifyThumbExecutor extends AbstractCommandExecutor {
   public tinifyService: any;
@@ -12,30 +12,30 @@ export class TinifyThumbExecutor extends AbstractCommandExecutor {
     super(logger, TinifyBackend.SUPPORTED_FILE_TYPES);
   }
 
-  public init(args: any) {
+  public init(args: any): this {
     super.init(args);
 
     this.args = args;
     this.tinifyService = tinify;
 
-    this.tinifyService.key = args["tinify-api-key"];
-    if (args["tinify-proxy"]) {
-      this.tinifyService.proxy = args["tinify-proxy"];
+    this.tinifyService.key = args['tinify-api-key'];
+    if (args['tinify-proxy']) {
+      this.tinifyService.proxy = args['tinify-proxy'];
     }
 
     return this;
   }
 
-  public process(file: string, outdir: string) {
+  public process(file: string, outdir: string): void {
     // setup target directory
     const target = this.setupTarget(file, {
-      suffix: "-thumb"
+      suffix: '-thumb'
     });
 
     // create thumbnail and compress file
     const source = this.tinifyService.fromFile(file);
     const thumbed = source.resize({
-      method: "thumb",
+      method: 'thumb',
       width: this.args.width,
       height: this.args.height
     });
@@ -43,7 +43,7 @@ export class TinifyThumbExecutor extends AbstractCommandExecutor {
     thumbed.toFile(target, (err: any) => {
       if (err) {
         this.logger.eprintln([
-          "Unable to create thumbnail for file: ",
+          'Unable to create thumbnail for file: ',
           file,
           err
         ]);

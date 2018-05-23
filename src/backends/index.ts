@@ -1,9 +1,9 @@
-import { Options } from "yargs";
-import { Logger } from "../util/Logger";
+import { Argv, Options } from 'yargs';
+import { Logger } from '../util/Logger';
 
-import * as fs from "fs";
-import * as fx from "mkdir-recursive";
-import * as path from "path";
+import * as fs from 'fs';
+import * as fx from 'mkdir-recursive';
+import * as path from 'path';
 
 export interface CommandExecutor {
   init(args: any): this;
@@ -31,15 +31,16 @@ export abstract class AbstractCommandExecutor implements CommandExecutor {
     this.supportedFileTypes = supportedFileTypes;
   }
 
-  public init(args: any) {
+  public init(args: any): this {
     this.outdir = args.output;
     this.flatten = args.flatten || false;
+
     return this;
   }
 
   public abstract process(file: string, outdir: string): void;
 
-  public supportFile(file: string) {
+  public supportFile(file: string): boolean {
     return this.supportedFileTypes.indexOf(path.parse(file).ext) !== -1;
   }
 
@@ -51,11 +52,11 @@ export abstract class AbstractCommandExecutor implements CommandExecutor {
     opts: TargetFileOptions
   ): string {
     return path.join(
-      opts.outdir || "",
+      opts.outdir || '',
       path.format({
         ...file,
         name: file.name + opts.suffix,
-        dir: opts.flatten ? "" : file.dir,
+        dir: opts.flatten ? '' : file.dir,
         base: undefined
       })
     );
@@ -76,19 +77,20 @@ export abstract class AbstractCommandExecutor implements CommandExecutor {
 
     // create needed directories
     fx.mkdirSync(path.dirname(targetFileName));
+
     return targetFileName;
   }
 
-  public printSuccess(inputFile: string, targetFile: string) {
-    this.logger.force().println(["\n", inputFile, " -> ", targetFile]);
+  public printSuccess(inputFile: string, targetFile: string): void {
+    this.logger.force().println(['\n', inputFile, ' -> ', targetFile]);
   }
 
-  public printReducedFileSize(inputFile: string, targetFile: string) {
+  public printReducedFileSize(inputFile: string, targetFile: string): void {
     const sourceSize = fs.statSync(inputFile).size;
     const targetSize = fs.statSync(targetFile).size;
     const reducedSize = (100 - targetSize * 100 / sourceSize).toFixed(2);
 
-    this.logger.println(["\t", reducedSize, "% reduced size"]);
+    this.logger.println(['\t', reducedSize, '% reduced size']);
   }
 }
 
@@ -124,7 +126,7 @@ export abstract class Backend {
   public abstract getOptions(): { [flag: string]: Options };
 
   // checks if a backend supports a given command
-  public hasSupport(command: string) {
+  public hasSupport(command: string): boolean {
     return this.getSupportedCommands().indexOf(command) !== -1;
   }
 
@@ -145,7 +147,7 @@ export class Backends {
     this.registry = {};
   }
 
-  public registerBackend(backend: Backend) {
+  public registerBackend(backend: Backend): void {
     if (this.registry[backend.getName()]) {
       throw new Error(
         `Backend with name ${backend.getName()} is already registered.`
@@ -155,11 +157,7 @@ export class Backends {
     this.registry[backend.getName()] = backend;
   }
 
-  /**
-   *
-   * @param command
-   * @ return array with backend names, that support the given command
-   */
+  // return array with backend names, that support the given command
   public getSupportedBackends(command: string): string[] {
     return Object.keys(this.registry).filter(backend => {
       return this.registry[backend].hasSupport(command);

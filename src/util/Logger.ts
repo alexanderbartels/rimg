@@ -29,7 +29,7 @@ export class Logger {
     return this.quiet ? this.forceLogger : this;
   }
 
-  public println(msg: string[]) {
+  public println(msg: string[]): void {
     if (this.quiet) {
       return;
     }
@@ -48,6 +48,6 @@ export class Logger {
   }
 
   private _stderr(msg: string[]): void {
-    this.stderr.apply(console, ["Error: ", ...msg]);
+    this.stderr.apply(console, ['Error: ', ...msg]);
   }
 }

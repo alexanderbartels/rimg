@@ -1,10 +1,10 @@
-import { Options } from "yargs";
+import { Options } from 'yargs';
 
 // -q as command line flag
-export const flag: string = "h";
+export const flag: string = 'h';
 export const option: Options = {
-  alias: "height",
-  description: "height for the resulting image.",
-  demandOption: "Height must be specified",
-  type: "number"
+  alias: 'height',
+  description: 'height for the resulting image.',
+  demandOption: 'Height must be specified',
+  type: 'number'
 };

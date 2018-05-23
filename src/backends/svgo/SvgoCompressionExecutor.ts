@@ -1,22 +1,22 @@
-import { Logger } from "../../util/Logger";
-import { AbstractCommandExecutor } from "../index";
+import { Logger } from '../../util/Logger';
+import { AbstractCommandExecutor } from '../index';
 
-import * as fs from "fs";
-import * as fx from "mkdir-recursive";
-import * as path from "path";
+import * as fs from 'fs';
+import * as fx from 'mkdir-recursive';
+import * as path from 'path';
 
-import * as SVGO from "svgo";
-import { SvgoBackend } from ".";
+import * as SVGO from 'svgo';
+import { SvgoBackend } from '.';
 
 export class SvgoCompressionExecutor extends AbstractCommandExecutor {
   constructor(logger: Logger) {
     super(logger, SvgoBackend.SUPPORTED_FILE_TYPES);
   }
 
-  public process(file: string, outdir: string) {
+  public process(file: string, outdir: string): void {
     // setup target directory
     const target = this.setupTarget(file, {
-      suffix: ".min"
+      suffix: '.min'
     });
 
     // intiaite svgo with default configuration

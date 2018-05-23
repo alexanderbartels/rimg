@@ -1,24 +1,24 @@
-import * as yargs from "yargs";
-import { Argv, Options } from "yargs";
+import * as yargs from 'yargs';
+import { Argv, Options } from 'yargs';
 
-import * as globby from "globby";
+import * as globby from 'globby';
 
 // import parameter
 import {
   flag as BackendFlag,
   generateOption as generateBackendOption
-} from "./../parameter/backend";
+} from './../parameter/backend';
 import {
   flag as FlattenFlag,
   option as FlattenOption
-} from "./../parameter/flatten";
+} from './../parameter/flatten';
 import {
   flag as OutputFlag,
   option as OutputOption
-} from "./../parameter/output";
+} from './../parameter/output';
 
-import { Backend, Backends, CommandExecutor } from "./../backends/index";
-import { Logger } from "./../util/Logger";
+import { Backend, Backends, CommandExecutor } from './../backends/index';
+import { Logger } from './../util/Logger';
 
 export interface Command {
   name: string;
@@ -63,7 +63,7 @@ export abstract class AbstractCommand implements Command {
       executor.process(file, this.outdir);
     } else {
       this.logger.eprintln([
-        " No backend from the configured ones are able to process this file: ",
+        ' No backend from the configured ones are able to process this file: ',
         file
       ]);
     }
@@ -107,10 +107,10 @@ export abstract class AbstractCommandModule {
 
         return this.builder(
           yargs
-            .positional("files", {
+            .positional('files', {
               describe:
-                "File pattern (globby notation) for images to create the thumbnails from.",
-              type: "string"
+                'File pattern (globby notation) for images to create the thumbnails from.',
+              type: 'string'
             })
             // support for -o --output to store the compressed images
             .option(OutputFlag, OutputOption)

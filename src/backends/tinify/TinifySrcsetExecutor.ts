@@ -1,9 +1,9 @@
-import { Logger } from "../../util/Logger";
-import { AbstractCommandExecutor, CommandExecutor } from "../index";
+import { Logger } from '../../util/Logger';
+import { AbstractCommandExecutor, CommandExecutor } from '../index';
 
-import * as sizeOf from "image-size";
-import * as tinify from "tinify";
-import { TinifyBackend } from ".";
+import * as sizeOf from 'image-size';
+import * as tinify from 'tinify';
+import { TinifyBackend } from '.';
 
 export class TinifySrcsetExecutor extends AbstractCommandExecutor {
   public tinifyService: any;
@@ -12,13 +12,13 @@ export class TinifySrcsetExecutor extends AbstractCommandExecutor {
     super(logger, TinifyBackend.SUPPORTED_FILE_TYPES);
   }
 
-  public init(args: any) {
+  public init(args: any): this {
     super.init(args);
 
     this.tinifyService = tinify;
-    this.tinifyService.key = args["tinify-api-key"];
-    if (args["tinify-proxy"]) {
-      this.tinifyService.proxy = args["tinify-proxy"];
+    this.tinifyService.key = args['tinify-api-key'];
+    if (args['tinify-proxy']) {
+      this.tinifyService.proxy = args['tinify-proxy'];
     }
 
     return this;
@@ -29,9 +29,9 @@ export class TinifySrcsetExecutor extends AbstractCommandExecutor {
     file: string,
     targetX1: string,
     targetX2: string
-  ) {
+  ): void {
     if (err) {
-      this.logger.eprintln(["Unable to compress file: ", file, err]);
+      this.logger.eprintln(['Unable to compress file: ', file, err]);
     } else {
       this.printSuccess(file, targetX1);
       this.printReducedFileSize(file, targetX1);
@@ -53,10 +53,9 @@ export class TinifySrcsetExecutor extends AbstractCommandExecutor {
     });
   }
 
-  public process(file: string, outdir: string) {
-    // TODO target is with -1x appended.
-    const targetX1 = this.setupTarget(file, { suffix: "-@1x" });
-    const targetX2 = this.setupTarget(file, { suffix: "-@2x" });
+  public process(file: string, outdir: string): void {
+    const targetX1 = this.setupTarget(file, { suffix: '-@1x' });
+    const targetX2 = this.setupTarget(file, { suffix: '-@2x' });
 
     // get width from the input image
     const inputWidth = sizeOf(file).width;
@@ -65,7 +64,7 @@ export class TinifySrcsetExecutor extends AbstractCommandExecutor {
     // compress and resize file
     const source = this.tinifyService.fromFile(file);
     const resized = source.resize({
-      method: "scale",
+      method: 'scale',
       width: targetWidth
     });
 
@@ -76,7 +75,7 @@ export class TinifySrcsetExecutor extends AbstractCommandExecutor {
       () => {
         this.processReady(null, file, targetX1, targetX2);
       },
-      (err: any) => {
+      err => {
         this.processReady(err, file, targetX1, targetX2);
       }
     );
