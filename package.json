@@ -83,7 +83,7 @@
       "lcovonly",
       "text"
     ],
-    "all": true  
+    "all": true
   },
   "config": {
     "commitizen": {
